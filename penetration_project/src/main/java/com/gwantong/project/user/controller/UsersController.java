@@ -40,7 +40,7 @@ public class UsersController {
     @PostMapping("/signup")
     public ResponseEntity<?> signUpUser(@RequestBody UserDto user) {
         int result = userService.signUpUser(user);
-        if (result == 1) {
+        if (result != 0) {
             return ResponseEntity.ok(result);
         } else {
             // 204 No content

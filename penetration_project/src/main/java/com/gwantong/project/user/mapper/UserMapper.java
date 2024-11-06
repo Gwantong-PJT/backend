@@ -12,5 +12,5 @@ public interface UserMapper {
 
     UserDto loginUser(String userId, String userPw);
 
-    int signUpUser(UserDto user);
+    int signUpUser(UserDto user) throws Exception;
 }

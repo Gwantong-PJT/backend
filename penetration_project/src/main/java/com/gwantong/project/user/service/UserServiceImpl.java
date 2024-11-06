@@ -1,5 +1,6 @@
 package com.gwantong.project.user.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int signUpUser(UserDto user) {
-        return userMapper.signUpUser(user);
+        int result = 0;
+
+        // 중복된 ID를 등록하려 하면 예외 발생 => 처리
+        try {
+            result = userMapper.signUpUser(user);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            result = -1;
+        } catch (Exception e) {
+            result = -2;
+        }
+
+        return result;
     }
 
 }
