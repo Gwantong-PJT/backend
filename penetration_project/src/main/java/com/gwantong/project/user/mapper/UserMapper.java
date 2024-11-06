@@ -10,7 +10,7 @@ import com.gwantong.project.user.dto.UserDto;
 public interface UserMapper {
     List<UserDto> selectAllUser();
 
-    UserDto loginUser(String userId, String userPw);
+    UserDto loginUser(UserDto user);
 
     int signUpUser(UserDto user) throws Exception;
 }

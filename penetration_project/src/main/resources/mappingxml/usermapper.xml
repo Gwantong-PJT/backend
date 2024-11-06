@@ -28,8 +28,8 @@
         select * from USERS_TB
     </select>
 
-    <select id="loginUser" parameterType="string"  resultMap="userDtoMap">
-        select * from USERS_TB where user_id = #{userId} and user_password = #{userPw}
+    <select id="loginUser" parameterType="userDto"  resultMap="userDtoMap">
+        select * from USERS_TB where user_id = #{userId} and user_password = #{userPassword}
     </select>
 
     <insert id="signUpUser" parameterType="userDto">
