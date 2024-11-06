@@ -13,7 +13,7 @@
         <result column="user_password" property="userPassword"/>
         <result column="user_name" property="userName"/>
         <result column="user_role" property="userRole"/>
-        <result column="user_profile" property="userProFile"/>
+        <result column="user_profile" property="userProfile"/>
         <result column="age_no" property="ageNo"/>
         <result column="user_residence" property="userResidence"/>
     </resultMap>
@@ -31,6 +31,11 @@
     <select id="loginUser" parameterType="string"  resultMap="userDtoMap">
         select * from USERS_TB where user_id = #{userId} and user_password = #{userPw}
     </select>
+
+    <insert id="signUpUser" parameterType="userDto">
+       insert into users_tb(`user_id`, `user_password`, `user_name`)
+        value (#{userId}, #{userPassword}, #{userName})
+    </insert>
 
     
 

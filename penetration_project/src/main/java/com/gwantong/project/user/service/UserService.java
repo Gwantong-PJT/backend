@@ -8,4 +8,6 @@ public interface UserService {
     List<UserDto> selectAllUser();
 
     UserDto loginUser(String userId, String userPw);
+
+    int signUpUser(UserDto user);
 }

@@ -9,7 +9,7 @@ public class UserDto {
     private String userPassword;
     private String userName;
     private String userRole;
-    private String userProFile;
+    private String userProfile;
     private int ageNo;
     private int userResidence;
 }

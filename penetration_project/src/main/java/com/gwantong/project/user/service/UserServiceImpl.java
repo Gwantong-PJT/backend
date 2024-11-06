@@ -23,4 +23,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.loginUser(userId, userPw);
     }
 
+    @Override
+    public int signUpUser(UserDto user) {
+        return userMapper.signUpUser(user);
+    }
+
 }

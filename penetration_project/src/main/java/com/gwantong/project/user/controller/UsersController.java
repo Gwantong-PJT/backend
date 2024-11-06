@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,9 +37,15 @@ public class UsersController {
         }
     }
 
-    @PostMapping("/")
-    public ResponseEntity<?> signInUser() {
-        return ResponseEntity.ok(null);
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUpUser(@RequestBody UserDto user) {
+        int result = userService.signUpUser(user);
+        if (result == 1) {
+            return ResponseEntity.ok(result);
+        } else {
+            // 204 No content
+            return ResponseEntity.noContent().build();
+        }
     }
 
 }
