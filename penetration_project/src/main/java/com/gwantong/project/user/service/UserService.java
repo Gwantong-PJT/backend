@@ -9,6 +9,8 @@ public interface UserService {
 
     UserDto loginUser(UserDto user);
 
+    UserDto getUserInfoByUserId(String userId);
+
     int signUpUser(UserDto user);
 
     int updateUser(UserDto user);

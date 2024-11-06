@@ -25,6 +25,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDto getUserInfoByUserId(String userId) {
+        return userMapper.getUserInfoByUserId(userId);
+    }
+
+    @Override
     public int signUpUser(UserDto user) {
         int result = 0;
 

@@ -12,6 +12,8 @@ public interface UserMapper {
 
     UserDto loginUser(UserDto user);
 
+    UserDto getUserInfoByUserId(String userId);
+
     int signUpUser(UserDto user) throws Exception;
 
     int updateUser(UserDto user);
