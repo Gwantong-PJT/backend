@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--연결할 mapper객체(java) 연결-->
+<mapper namespace="com.gwantong.project.mapper.UserMapper">
+
+    <!--아래 type에 명시된 dto들은 application.properties의 mybatis설정에서 alias가 설정된 객체들-->
+    <!--아래는 resultMap 설정. type=저장객체, id=이름, column=DB결과, property=객체의 필드-->
+    <resultMap type="userDto" id="userDtoMap">
+        <result column="user_no" property="userNo"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_role" property="userRole"/>
+        <result column="user_profile" property="userProFile"/>
+        <result column="age_no" property="ageNo"/>
+        <result column="user_residence" property="userResidence"/>
+    </resultMap>
+
+    <!--이건 모름-->
+    <!--
+	<resultMap type="boardDto" id="viewArticle" extends="article">
+		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
+	</resultMap>
+    -->
+    <select id="selectAllUser" resultMap="userDtoMap">
+        select * from USERS_TB
+    </select>
+
+    <select id="loginUser" parameterType="string"  resultMap="userDtoMap">
+        select * from USERS_TB where user_id = #{userId} and user_password = #{userPw}
+    </select>
+
+    
+
+</mapper>
