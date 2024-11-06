@@ -37,6 +37,15 @@
         value (#{userId}, #{userPassword}, #{userName})
     </insert>
 
-    
+    <update id="updateUser" parameterType="userDto">
+    update users_tb
+        set 
+        user_password = #{userPassword},
+        user_name = #{userName},
+        user_profile = #{userProfile},
+        age_no = #{ageNo},
+        user_residence = #{userResidence}
+        where user_id = #{userId};
+    </update>
 
 </mapper>

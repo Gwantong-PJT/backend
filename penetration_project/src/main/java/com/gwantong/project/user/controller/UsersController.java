@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,17 @@ public class UsersController {
     @PostMapping("/signup")
     public ResponseEntity<?> signUpUser(@RequestBody UserDto requestUser) {
         int result = userService.signUpUser(requestUser);
+        if (result != 0) {
+            return ResponseEntity.ok(result);
+        } else {
+            // 204 No content
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody UserDto requestUser) {
+        int result = userService.updateUser(requestUser);
         if (result != 0) {
             return ResponseEntity.ok(result);
         } else {

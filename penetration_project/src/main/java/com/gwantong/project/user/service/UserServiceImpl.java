@@ -40,4 +40,13 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public int updateUser(UserDto user) {
+        int result = 0;
+
+        result = userMapper.updateUser(user);
+
+        return result;
+    }
+
 }

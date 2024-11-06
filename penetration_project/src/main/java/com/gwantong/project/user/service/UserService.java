@@ -10,4 +10,6 @@ public interface UserService {
     UserDto loginUser(UserDto user);
 
     int signUpUser(UserDto user);
+
+    int updateUser(UserDto user);
 }

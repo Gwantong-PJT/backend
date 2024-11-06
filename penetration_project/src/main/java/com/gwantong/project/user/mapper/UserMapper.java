@@ -13,4 +13,6 @@ public interface UserMapper {
     UserDto loginUser(UserDto user);
 
     int signUpUser(UserDto user) throws Exception;
+
+    int updateUser(UserDto user);
 }
