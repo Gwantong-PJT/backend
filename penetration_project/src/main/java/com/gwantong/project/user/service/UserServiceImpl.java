@@ -1,12 +1,12 @@
-package com.gwantong.project.service;
+package com.gwantong.project.user.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gwantong.project.dto.UserDto;
-import com.gwantong.project.mapper.UserMapper;
+import com.gwantong.project.user.dto.UserDto;
+import com.gwantong.project.user.mapper.UserMapper;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -1,8 +1,8 @@
-package com.gwantong.project.service;
+package com.gwantong.project.user.service;
 
 import java.util.List;
 
-import com.gwantong.project.dto.UserDto;
+import com.gwantong.project.user.dto.UserDto;
 
 public interface UserService {
     List<UserDto> selectAllUser();

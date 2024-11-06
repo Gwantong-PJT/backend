@@ -1,4 +1,4 @@
-package com.gwantong.project.dto;
+package com.gwantong.project.user.dto;
 
 import lombok.Data;
 
