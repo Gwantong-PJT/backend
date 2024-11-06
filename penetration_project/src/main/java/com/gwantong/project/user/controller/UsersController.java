@@ -21,13 +21,13 @@ public class UsersController {
     @Autowired
     UserService userService;
 
-    @GetMapping({ "/", "" })
+    @GetMapping("/all")
     public ResponseEntity<?> selectAllUser() {
         List<UserDto> userlist = userService.selectAllUser();
         return ResponseEntity.ok(userlist);
     }
 
-    @GetMapping("/login")
+    @GetMapping("/")
     public ResponseEntity<?> loginUser(@RequestBody UserDto requestUser) {
         UserDto loginUser = userService.loginUser(requestUser);
         if (loginUser != null) {
@@ -37,7 +37,7 @@ public class UsersController {
         }
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/")
     public ResponseEntity<?> signUpUser(@RequestBody UserDto requestUser) {
         int result = userService.signUpUser(requestUser);
         if (result != 0) {
@@ -48,7 +48,7 @@ public class UsersController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping("/")
     public ResponseEntity<?> updateUser(@RequestBody UserDto requestUser) {
         int result = userService.updateUser(requestUser);
         if (result != 0) {
