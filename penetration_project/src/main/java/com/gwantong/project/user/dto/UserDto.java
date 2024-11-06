@@ -12,4 +12,5 @@ public class UserDto {
     private String userProfile;
     private int ageNo;
     private int userResidence;
+    private int ageValue;
 }

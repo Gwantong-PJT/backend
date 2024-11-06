@@ -16,6 +16,7 @@
         <result column="user_profile" property="userProfile"/>
         <result column="age_no" property="ageNo"/>
         <result column="user_residence" property="userResidence"/>
+        <result column="age_value" property="ageValue"/>
     </resultMap>
 
     <!--이건 모름-->
@@ -25,15 +26,18 @@
 	</resultMap>
     -->
     <select id="selectAllUser" resultMap="userDtoMap">
-        select * from USERS_TB
+        select * from USERS_TB left join age_tb using (age_no)
     </select>
 
     <select id="loginUser" parameterType="userDto"  resultMap="userDtoMap">
-        select * from USERS_TB where user_id = #{userId} and user_password = #{userPassword}
+        select * from USERS_TB left join age_tb using (age_no) 
+        where user_id = #{userId} and user_password = #{userPassword}
     </select>
 
     <select id="getUserInfoByUserId" parameterType="string"  resultMap="userDtoMap">
-        select * from USERS_TB where user_id = #{userId}
+        select * from USERS_TB
+        left join age_tb using (age_no)
+        where user_id = #{userId}
     </select>
 
     <insert id="signUpUser" parameterType="userDto">
