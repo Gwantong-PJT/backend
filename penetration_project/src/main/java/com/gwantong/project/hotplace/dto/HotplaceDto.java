@@ -6,6 +6,7 @@ import lombok.Data;
 public class HotplaceDto {
     private int hotplaceNo;
     private int userNo;
+    private String userName;
     private String hotplaceTitle;
     private String hotplaceText;
     private String hotplaceDate;

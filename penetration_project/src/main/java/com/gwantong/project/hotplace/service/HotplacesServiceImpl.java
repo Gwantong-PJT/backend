@@ -26,4 +26,15 @@ public class HotplacesServiceImpl implements HotplacesService {
         return hotplacesMapper.selectHotplace(hotplaceNo);
     }
 
+    @Override
+    public int updateHotplace(HotplaceDto hotplaceDto) {
+        int result;
+        try {
+            result = hotplacesMapper.updateHotplace(hotplaceDto);
+        } catch (Exception e) {
+            result = -1;
+        }
+        return result;
+    }
+
 }

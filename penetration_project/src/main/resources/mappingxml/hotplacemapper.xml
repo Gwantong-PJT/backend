@@ -11,6 +11,7 @@
     <resultMap type="hotplaceDto" id="hotplaceDtoMap">
         <result column="hotplace_no" property="hotplaceNo"/>
         <result column="user_no" property="userNo"/>
+        <result column="user_name" property="userName"/>
         <result column="hotplace_title" property="hotplaceTitle"/>
         <result column="hotplace_text" property="hotplaceText"/>
         <result column="hotplace_date" property="hotplaceDate"/>
@@ -25,17 +26,34 @@
 	</resultMap>
     -->
     <select id="viewAllHotplaces" resultMap="hotplaceDtoMap">
-        select * from hotplaces_tb
+        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name 
+        from hotplaces_tb 
+        left join users_tb 
+        using(user_no)
     </select>
     
-
-
     <select id="selectHotplace" parameterType="int" resultMap="hotplaceDtoMap">
-        select * from hotplaces_tb where hotplace_no = #{hotplaceNo};
+        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name
+        from hotplaces_tb
+        left join users_tb 
+        using(user_no)
+        where hotplace_no = #{hotplaceNo}
     </select>
 
     <update id="increaseHotplaceViews" parameterType="int">
-        update hotplaces_tb set hotplace_views = hotplace_views + 1 where hotplace_no = #{hotplaceNo};
+        update hotplaces_tb 
+        set 
+        hotplace_views = hotplace_views + 1 
+        where hotplace_no = #{hotplaceNo}
     </update>
+
+    <update id="updateHotplace" parameterType="hotplaceDto">
+        update hotplaces_tb set
+        hotplace_title = #{hotplaceTitle},
+        hotplace_text = #{hotplaceText},
+        hotplace_date = now()
+        where hotplace_no = #{hotplaceNo}
+    </update>
+    
 
 </mapper>

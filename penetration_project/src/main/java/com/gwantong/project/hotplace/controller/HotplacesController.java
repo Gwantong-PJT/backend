@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +37,16 @@ public class HotplacesController {
             return ResponseEntity.ok(hotpl);
         } else {
             return ResponseEntity.noContent().build();
+        }
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<?> updateHotplace(@RequestBody HotplaceDto hotpl) {
+        int result = hotplacesService.updateHotplace(hotpl);
+        if (result == 1) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
         }
     }
 

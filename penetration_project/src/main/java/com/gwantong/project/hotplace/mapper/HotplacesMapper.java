@@ -13,4 +13,6 @@ public interface HotplacesMapper {
     void increaseHotplaceViews(int hotplaceNo);
 
     HotplaceDto selectHotplace(int hotplaceNo);
+
+    int updateHotplace(HotplaceDto hotplaceDto) throws Exception;
 }

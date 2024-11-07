@@ -8,4 +8,6 @@ public interface HotplacesService {
     List<HotplaceDto> viewAllHotplaces();
 
     HotplaceDto selectHotplace(int hotplaceNo);
+
+    int updateHotplace(HotplaceDto hotplaceDto);
 }
