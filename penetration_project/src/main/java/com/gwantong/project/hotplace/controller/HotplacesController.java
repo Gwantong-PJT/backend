@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +55,16 @@ public class HotplacesController {
     @PutMapping("/")
     public ResponseEntity<?> updateHotplace(@RequestBody HotplaceDto hotpl) {
         int result = hotplacesService.updateHotplace(hotpl);
+        if (result == 1) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+
+    @DeleteMapping("/")
+    public ResponseEntity<?> deleteHotplace(@RequestBody int hotpl) {
+        int result = hotplacesService.deleteHotplace(hotpl);
         if (result == 1) {
             return ResponseEntity.ok(result);
         } else {

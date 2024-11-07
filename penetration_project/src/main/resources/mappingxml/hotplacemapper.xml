@@ -61,6 +61,12 @@
         hotplace_date = now()
         where hotplace_no = #{hotplaceNo}
     </update>
+
+    <delete id="deleteHotplace" parameterType="int">
+        delete from hotplaces_tb where hotplace_no = #{hotplaceNo}
+    </delete>
+
+
     
 
 </mapper>

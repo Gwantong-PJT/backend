@@ -47,4 +47,15 @@ public class HotplacesServiceImpl implements HotplacesService {
         }
         return result;
     }
+
+    @Override
+    public int deleteHotplace(int hotplaceNo) {
+        int result;
+        try {
+            result = hotplacesMapper.deleteHotplace(hotplaceNo);
+        } catch (Exception e) {
+            result = -1;
+        }
+        return result;
+    }
 }

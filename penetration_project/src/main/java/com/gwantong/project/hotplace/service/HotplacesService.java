@@ -12,4 +12,6 @@ public interface HotplacesService {
     int insertHotplace(HotplaceDto hotplaceDto);
 
     int updateHotplace(HotplaceDto hotplaceDto);
+
+    int deleteHotplace(int hotplaceNo);
 }
