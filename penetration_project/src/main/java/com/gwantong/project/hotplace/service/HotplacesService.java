@@ -9,5 +9,7 @@ public interface HotplacesService {
 
     HotplaceDto selectHotplace(int hotplaceNo);
 
+    int insertHotplace(HotplaceDto hotplaceDto);
+
     int updateHotplace(HotplaceDto hotplaceDto);
 }

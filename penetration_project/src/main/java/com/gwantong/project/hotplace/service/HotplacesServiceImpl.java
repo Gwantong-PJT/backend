@@ -27,6 +27,17 @@ public class HotplacesServiceImpl implements HotplacesService {
     }
 
     @Override
+    public int insertHotplace(HotplaceDto hotplaceDto) {
+        int result;
+        try {
+            result = hotplacesMapper.insertHotplace(hotplaceDto);
+        } catch (Exception e) {
+            result = -1;
+        }
+        return result;
+    }
+
+    @Override
     public int updateHotplace(HotplaceDto hotplaceDto) {
         int result;
         try {
@@ -36,5 +47,4 @@ public class HotplacesServiceImpl implements HotplacesService {
         }
         return result;
     }
-
 }

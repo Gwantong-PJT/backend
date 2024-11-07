@@ -40,6 +40,13 @@
         where hotplace_no = #{hotplaceNo}
     </select>
 
+    <insert id="insertHotplace" parameterType="hotplaceDto">
+        insert into hotplaces_tb(`user_no`, `hotplace_title`,`hotplace_text`)
+        value
+        (#{userNo}, #{hotplaceTitle}, #{hotplaceText});
+    </insert>
+
+
     <update id="increaseHotplaceViews" parameterType="int">
         update hotplaces_tb 
         set 

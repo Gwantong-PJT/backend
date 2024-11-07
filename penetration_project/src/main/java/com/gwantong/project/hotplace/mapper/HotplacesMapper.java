@@ -14,5 +14,7 @@ public interface HotplacesMapper {
 
     HotplaceDto selectHotplace(int hotplaceNo);
 
+    int insertHotplace(HotplaceDto hotplaceDto) throws Exception;
+
     int updateHotplace(HotplaceDto hotplaceDto) throws Exception;
 }
