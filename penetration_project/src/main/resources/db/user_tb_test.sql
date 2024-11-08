@@ -3,7 +3,9 @@ use penetration;
 show tables;
 desc users_tb;
 
-select * from users_tb;
+select * from users_tb
+left join age_tb
+using (age_no);
 
 delete from users_tb where user_no = 6;
 
@@ -18,8 +20,10 @@ set
 user_password = "aapa",
 user_name = "hi_postman",
 user_profile = null,
-age_no = null,
+age_no = 4,
 user_residence = null
 where user_id = "ppman";
 
-drop table users_tb;
+
+select * from user_refresh_token_tb where user_id = ;
+drop table  user_refresh_token_tb;
