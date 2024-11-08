@@ -9,6 +9,8 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.gwantong.project.exception.UnauthorizedException;
+
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -49,21 +51,30 @@ public class JWTUtil {
         return Jwts.builder()
                 .subject(tokenName)
                 .claim("userId", userId)
-                .issuedAt(new Date())
+                .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expireTime))
                 // .signWith(secretKey, Jwts.SIG.HS512)
                 .signWith(secretKey)
                 .compact();
     }
 
-    public String parseToken(String jwtToken) {
+    // 토큰 유효성 검사. key가 맞는지, 유효 기간이 남았는지 확인
+    public String parseToken(String jwtToken) throws Exception {
         // 서명 확인 후 디코딩. 페이로드 가져온다음 userId 확인
-        return Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(jwtToken)
-                .getPayload()
-                .get("userId", String.class);
+        String jwt = null;
+
+        try {
+            jwt = Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(jwtToken)
+                    .getPayload()
+                    .get("userId", String.class);
+        } catch (Exception e) {
+            throw new UnauthorizedException();
+        }
+
+        return jwt;
     }
 
 }

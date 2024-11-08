@@ -1,6 +1,8 @@
 package com.gwantong.project.user.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,18 +17,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gwantong.project.user.dto.UserDto;
 import com.gwantong.project.user.service.UserService;
+import com.gwantong.project.util.JWTUtil;
 
 @RestController
 @RequestMapping("/user")
 public class UsersController {
     @Autowired
     UserService userService;
+    @Autowired
+    JWTUtil jwtUtil;
+
+    private String createRefreshTokenAndDB(String userId) {
+        String refreshJwt = jwtUtil.createRefreshToken(userId);
+
+        return refreshJwt;
+    }
 
     @GetMapping("/")
     public ResponseEntity<?> loginUser(@RequestBody UserDto requestUser) {
         UserDto loginUser = userService.loginUser(requestUser);
         if (loginUser != null) {
-            return ResponseEntity.ok(loginUser);
+            Map<String, Object> responseObj = new HashMap<>();
+            responseObj.put("userDto", loginUser);
+            responseObj.put("accessToken", jwtUtil.createAccessToken(loginUser.getUserId()));
+            responseObj.put("refrestToken", createRefreshTokenAndDB(loginUser.getUserId()));
+
+            return ResponseEntity.ok(responseObj);
         } else {
             return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }
