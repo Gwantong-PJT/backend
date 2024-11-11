@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--연결할 mapper객체(java) 연결-->
+<mapper namespace="com.gwantong.project.attraction.mapper.AttractionMapper">
+
+    <!--아래 type에 명시된 dto들은 application.properties의 mybatis설정에서 alias가 설정된 객체들-->
+    <!--아래는 resultMap 설정. type=저장객체, id=이름, column=DB결과, property=객체의 필드-->
+    <resultMap type="attractionDto" id="attractionDtoMap">
+        <result column="attraction_no" property="attractionNo"/>
+        <result column="content_id" property="contentId"/>
+        <result column="title" property="title"/>
+        <result column="content_type_id" property="contentTypeId"/>
+        <result column="area_code" property="areaCode"/>
+        <result column="si_gun_gu_code" property="siGunGuCode"/>
+        <result column="first_image1" property="firstImage1"/>
+        <result column="first_image2" property="firstImage2"/>
+        <result column="map_level" property="mapLevel"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+        <result column="tel" property="tel"/>
+        <result column="addr1" property="addr1"/>
+        <result column="addr2" property="addr2"/>
+        <result column="homepage" property="homepage"/>
+        <result column="overview" property="overview"/>
+    </resultMap>
+
+    <!--이건 모름-->
+    <!--
+	<resultMap type="boardDto" id="viewArticle" extends="article">
+		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
+	</resultMap>
+    -->
+
+<!-- 
+    <select id="loginUser" parameterType="userDto"  resultMap="userDtoMap">
+        select * from USERS_TB left join age_tb using (age_no) 
+        where user_id = #{userId} and user_password = #{userPassword}
+    </select>
+-->
+
+
+</mapper>
