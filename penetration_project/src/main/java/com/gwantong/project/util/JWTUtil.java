@@ -61,10 +61,10 @@ public class JWTUtil {
     // 토큰 유효성 검사. key가 맞는지, 유효 기간이 남았는지 확인
     public String parseToken(String jwtToken) throws Exception {
         // 서명 확인 후 디코딩. 페이로드 가져온다음 userId 확인
-        String jwt = null;
+        String userId = null;
 
         try {
-            jwt = Jwts.parser()
+            userId = Jwts.parser()
                     .verifyWith(secretKey)
                     .build()
                     .parseSignedClaims(jwtToken)
@@ -74,7 +74,7 @@ public class JWTUtil {
             throw new UnauthorizedException();
         }
 
-        return jwt;
+        return userId;
     }
 
 }

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gwantong.project.authorization.service.AuthorizationService;
 import com.gwantong.project.user.dto.UserDto;
 import com.gwantong.project.user.service.UserService;
-import com.gwantong.project.util.JWTUtil;
 
 @RestController
 @RequestMapping("/user")
@@ -25,13 +25,7 @@ public class UsersController {
     @Autowired
     UserService userService;
     @Autowired
-    JWTUtil jwtUtil;
-
-    private String createRefreshTokenAndDB(String userId) {
-        String refreshJwt = jwtUtil.createRefreshToken(userId);
-
-        return refreshJwt;
-    }
+    AuthorizationService authorizationService;
 
     @GetMapping("/")
     public ResponseEntity<?> loginUser(@RequestBody UserDto requestUser) {
@@ -39,8 +33,7 @@ public class UsersController {
         if (loginUser != null) {
             Map<String, Object> responseObj = new HashMap<>();
             responseObj.put("userDto", loginUser);
-            responseObj.put("accessToken", jwtUtil.createAccessToken(loginUser.getUserId()));
-            responseObj.put("refrestToken", createRefreshTokenAndDB(loginUser.getUserId()));
+            responseObj.put("jwt", authorizationService.generateFreshToken(loginUser.getUserId()));
 
             return ResponseEntity.ok(responseObj);
         } else {

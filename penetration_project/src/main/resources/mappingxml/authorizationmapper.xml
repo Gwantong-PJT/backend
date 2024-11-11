@@ -5,14 +5,15 @@
 <!--연결할 mapper객체(java) 연결-->
 <mapper namespace="com.gwantong.project.authorization.mapper.AuthorizationMapper">
 
-    <select id="authorizeUser" parameterType="string" returnType="string">
-        select * from user_refresh_token_tb where user_id = #{userId};
+    <select id="authorizeUser" parameterType="string" resultType="string">
+        select refresh_token from user_refresh_token_tb where user_id = #{userId};
     </select>
 
     <insert id="saveRefreshToken" parameterType="string">
         insert into user_refresh_token_tb(`user_id`,`refresh_token`)
-        value (#{userId},#{refreshToken})
+        value (#{userId}, #{refreshToken})
     </insert>
+
     <update id="reissuanceRefreshToken" parameterType="string">
         update user_refresh_token_tb set
         refresh_token = #{refreshToken} where user_id = #{userId}

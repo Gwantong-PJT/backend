@@ -4,24 +4,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.gwantong.project.authorization.service.AuthorizationService;
 import com.gwantong.project.util.JWTUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class JWTAuthorizationInterceptor implements HandlerInterceptor {
     @Autowired
     JWTUtil jwtUtil;
+    @Autowired
+    AuthorizationService authorizationService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        String jwtToken = request.getHeader("Jwt-Access");
+        String jwtToken = request.getHeader("Jwt");
+        String userId = request.getHeader("User-Id");
 
         // GlobalExceptionHandler가 예외 처리 해줬으니 안심
-        jwtUtil.parseToken(jwtToken);
-
+        authorizationService.authorizeUser(userId, jwtToken);
         return true;
     }
 }
