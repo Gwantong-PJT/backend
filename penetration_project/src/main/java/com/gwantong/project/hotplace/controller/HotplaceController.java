@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gwantong.project.hotplace.dto.HotplaceDto;
-import com.gwantong.project.hotplace.service.HotplacesService;
+import com.gwantong.project.hotplace.service.HotplaceService;
 
 @RestController
 @RequestMapping("/hotplace")
-public class HotplacesController {
+public class HotplaceController {
     @Autowired
-    HotplacesService hotplacesService;
+    HotplaceService hotplacesService;
 
     @GetMapping("/")
     public ResponseEntity<?> viewAllHotplaces() {

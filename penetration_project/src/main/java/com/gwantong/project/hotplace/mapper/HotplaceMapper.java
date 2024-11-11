@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
 
 @Mapper
-public interface HotplacesMapper {
+public interface HotplaceMapper {
     List<HotplaceDto> viewAllHotplaces();
 
     void increaseHotplaceViews(int hotplaceNo);

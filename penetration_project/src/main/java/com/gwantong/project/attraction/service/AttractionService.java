@@ -1,10 +1,10 @@
-package com.gwantong.project.hotplace.service;
+package com.gwantong.project.attraction.service;
 
 import java.util.List;
 
 import com.gwantong.project.hotplace.dto.HotplaceDto;
 
-public interface HotplacesService {
+public interface AttractionService {
     List<HotplaceDto> viewAllHotplaces();
 
     HotplaceDto selectHotplace(int hotplaceNo);

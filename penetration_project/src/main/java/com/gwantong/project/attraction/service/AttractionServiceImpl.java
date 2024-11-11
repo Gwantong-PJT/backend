@@ -1,4 +1,4 @@
-package com.gwantong.project.hotplace.service;
+package com.gwantong.project.attraction.service;
 
 import java.util.List;
 
@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gwantong.project.hotplace.dto.HotplaceDto;
-import com.gwantong.project.hotplace.mapper.HotplacesMapper;
+import com.gwantong.project.hotplace.mapper.HotplaceMapper;
 
 @Service
-public class HotplacesServiceImpl implements HotplacesService {
+public class AttractionServiceImpl implements AttractionService {
     @Autowired
-    HotplacesMapper hotplacesMapper;
+    HotplaceMapper hotplacesMapper;
 
     @Override
     public List<HotplaceDto> viewAllHotplaces() {

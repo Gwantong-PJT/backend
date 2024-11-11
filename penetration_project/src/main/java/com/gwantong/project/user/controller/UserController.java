@@ -21,7 +21,7 @@ import com.gwantong.project.user.service.UserService;
 
 @RestController
 @RequestMapping("/user")
-public class UsersController {
+public class UserController {
     @Autowired
     UserService userService;
     @Autowired
