@@ -16,12 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
 import com.gwantong.project.hotplace.service.HotplaceService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/hotplace")
+@Tag(name = "핫플레이스", description = "핫플레이스 글 보기, 쓰기, 수정, 삭제 등 (hotplaces_tb)")
 public class HotplaceController {
     @Autowired
     HotplaceService hotplacesService;
 
+    @Operation(summary = "모든 글 보기", description = "모든 글을 조회 한다.<br>페이징은 아직 미구현")
     @GetMapping("/")
     public ResponseEntity<?> viewAllHotplaces() {
         List<HotplaceDto> list = hotplacesService.viewAllHotplaces();
@@ -32,6 +37,7 @@ public class HotplaceController {
         }
     }
 
+    @Operation(summary = "특정 글 보기", description = "파라미터로 글 번호(hotplaceNo)를 넘기면<br>해당 글을 상세 조회")
     @GetMapping("/{hotpl_no}")
     public ResponseEntity<?> selectHotplace(@PathVariable("hotpl_no") int hotpl_no) {
         HotplaceDto hotpl = hotplacesService.selectHotplace(hotpl_no);
@@ -42,6 +48,7 @@ public class HotplaceController {
         }
     }
 
+    @Operation(summary = "글 쓰기", description = "글 쓰기를 진행한다.<br>PK는 글 번호(hotplaceNo)지만 자동 입력되므로 입력할 필요 X<br>유저 정보(userNo)는 필수, 로그인 된 사용자로 넘기기<br>나머진 필수 아님")
     @PostMapping("/")
     public ResponseEntity<?> insertHotplace(@RequestBody HotplaceDto hotpl) {
         int result = hotplacesService.insertHotplace(hotpl);

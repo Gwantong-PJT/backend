@@ -28,8 +28,10 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/user/**")
+                .addPathPatterns("/hotplace/**")
                 .addPathPatterns("/attraction/**")
-                .excludePathPatterns("/user/");
+                .excludePathPatterns("/user/login")
+                .excludePathPatterns("/user/signup");
     }
 
     // ResourceHandler 설정

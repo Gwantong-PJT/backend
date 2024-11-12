@@ -21,28 +21,19 @@ import com.gwantong.project.user.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/user")
-@Tag(name = "유저 컨트롤러", description = "회원 목록, 상세 보기, 등록, 수정, 로그인 등 회원 정보 관련 클래스(users_tb)")
+@Tag(name = "유저", description = "회원 목록, 상세 보기, 등록, 수정, 로그인 등 회원 정보 관련 클래스(users_tb)")
 public class UserController {
     @Autowired
     UserService userService;
     @Autowired
     AuthorizationService authorizationService;
 
-    @Operation(summary = "로그인", description = "ID와 PW로 로그인을 진행한다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공"),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청"),
-            @ApiResponse(responseCode = "401", description = "인증 실패"),
-            @ApiResponse(responseCode = "404", description = "페이지 없음"),
-            @ApiResponse(responseCode = "500", description = "서버 에러")
-    })
-    @GetMapping("/")
+    @Operation(summary = "로그인", description = "userID와 userPassword로 로그인을 진행한다.<br>나머지는 입력할 필요 없음")
+    @PostMapping("/login")
     public ResponseEntity<?> loginUser(
             @Parameter(required = true, description = "로그인 할 사용자 ID") @RequestBody UserDto requestUser) {
         UserDto loginUser = userService.loginUser(requestUser);
@@ -58,18 +49,14 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "회원 목록 전체 보기", description = "전체 회원 목록을 조회, 로그인 후 진행")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공"),
-            @ApiResponse(responseCode = "404", description = "페이지 없음"),
-            @ApiResponse(responseCode = "500", description = "서버 에러")
-    })
+    @Operation(summary = "회원 목록 전체 조회", description = "전체 회원 목록을 조회, 필요 입력 없음<br>로그인 후 진행")
     @GetMapping("/all")
     public ResponseEntity<?> selectAllUser() {
         List<UserDto> userlist = userService.selectAllUser();
         return ResponseEntity.ok(userlist);
     }
 
+    @Operation(summary = "회원 한명 조회", description = "userID에 맞는 사용자 정보를 조회한다.<br>로그인 후 진행할 것<br>현재 로그인만 되어있으면 다른 사용자 정보도 조회 가능함")
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserInfoByUserId(@PathVariable("userId") String userId) {
         UserDto loginUser = userService.getUserInfoByUserId(userId);
@@ -80,7 +67,8 @@ public class UserController {
         }
     }
 
-    @PostMapping("/")
+    @Operation(summary = "회원 가입", description = "정보를 입력하여 회원 가입을 진행<br>userId와 userPassword는 필수<br>나머지는 현재 미구현이라 입력 필요 x")
+    @PostMapping("/signup")
     public ResponseEntity<?> signUpUser(@RequestBody UserDto requestUser) {
         int result = userService.signUpUser(requestUser);
         if (result != 0) {
@@ -91,7 +79,8 @@ public class UserController {
         }
     }
 
-    @PutMapping("/")
+    @Operation(summary = "회원 정보 수정", description = "userId를 기반으로 회원의 정보를 수정<br>userId는 필수<br>나머지는 선택 (ageValue는 다른 테이블이라 적용 안됨)<br>로그인 후 진행")
+    @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody UserDto requestUser) {
         int result = userService.updateUser(requestUser);
         if (result != 0) {

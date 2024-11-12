@@ -25,6 +25,9 @@ public class JWTAuthorizationInterceptor implements HandlerInterceptor {
         String jwtToken = request.getHeader("Jwt");
         String userId = request.getHeader("User-Id");
 
+        log.info("jwt in header : " + jwtToken);
+        log.info("userId in header : " + userId);
+
         // GlobalExceptionHandler가 예외 처리 해줬으니 안심
         authorizationService.authorizeUser(userId, jwtToken);
         return true;
