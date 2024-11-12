@@ -40,5 +40,8 @@
     </select>
 -->
 
+<select id="viewAll" resultMap="attractionDtoMap">
+    select * from attractions limit 0, 100;
+</select>
 
 </mapper>
