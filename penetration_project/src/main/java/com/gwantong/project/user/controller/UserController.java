@@ -19,18 +19,35 @@ import com.gwantong.project.authorization.service.AuthorizationService;
 import com.gwantong.project.user.dto.UserDto;
 import com.gwantong.project.user.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/user")
+@Tag(name = "유저 컨트롤러", description = "회원 목록, 상세 보기, 등록, 수정, 로그인 등 회원 정보 관련 클래스(users_tb)")
 public class UserController {
     @Autowired
     UserService userService;
     @Autowired
     AuthorizationService authorizationService;
 
+    @Operation(summary = "로그인", description = "ID와 PW로 로그인을 진행한다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청"),
+            @ApiResponse(responseCode = "401", description = "인증 실패"),
+            @ApiResponse(responseCode = "404", description = "페이지 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping("/")
-    public ResponseEntity<?> loginUser(@RequestBody UserDto requestUser) {
+    public ResponseEntity<?> loginUser(
+            @Parameter(required = true, description = "로그인 할 사용자 ID") @RequestBody UserDto requestUser) {
         UserDto loginUser = userService.loginUser(requestUser);
         if (loginUser != null) {
+
             Map<String, Object> responseObj = new HashMap<>();
             responseObj.put("userDto", loginUser);
             responseObj.put("jwt", authorizationService.generateFreshToken(loginUser.getUserId()));
@@ -41,6 +58,12 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "회원 목록 전체 보기", description = "전체 회원 목록을 조회, 로그인 후 진행")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공"),
+            @ApiResponse(responseCode = "404", description = "페이지 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping("/all")
     public ResponseEntity<?> selectAllUser() {
         List<UserDto> userlist = userService.selectAllUser();
