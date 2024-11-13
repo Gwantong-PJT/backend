@@ -67,7 +67,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "회원 가입", description = "정보를 입력하여 회원 가입을 진행<br>userId와 userPassword는 필수<br>나머지는 현재 미구현이라 입력 필요 x")
+    @Operation(summary = "회원 가입", description = "정보를 입력하여 회원 가입을 진행<br>userId와 userPassword는 필수<br>userName은 선택<br>나머지는 현재 미구현이라 입력 필요 x")
     @PostMapping("/signup")
     public ResponseEntity<?> signUpUser(@RequestBody UserDto requestUser) {
         int result = userService.signUpUser(requestUser);

@@ -18,13 +18,27 @@
         <result column="hotplace_views" property="hotplaceViews"/>
     </resultMap>
 
+    <resultMap type="hotplacePictureDto" id="hotplacePictureDtoMap">
+        <result column="picture_no" property="pictureNo"/>
+        <result column="hotplace_no" property="hotplaceNo"/>
+        <result column="picture_url" property="pictureUrl"/>
+    </resultMap>
 
-    <!--이건 모름-->
-    <!--
-	<resultMap type="boardDto" id="viewArticle" extends="article">
-		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
+    <resultMap type="commentDto" id="commentDtoMap">
+        <result column="comment_no" property="commentNo"/>
+        <result column="hotplace_no" property="hotplaceNo"/>
+        <result column="user_no" property="userNo"/>
+        <result column="comment_text" property="commentText"/>
+        <result column="comment_date" property="commentDate"/>
+    </resultMap>
+
+	<resultMap type="hotplaceDto" id="extendHotplaceDtoMap" extends="hotplaceDtoMap">
+		<collection property="comments" column="hotplace_no" javaType="list" ofType="commentDto" select="commentList"/>
+		<collection property="pictures" column="hotplace_no" javaType="list" ofType="hotplacePictureDto" select="pictureList"/>
 	</resultMap>
-    -->
+
+
+    <!-- 모든 글 보기 -->
     <select id="viewAllHotplaces" resultMap="hotplaceDtoMap">
         select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name 
         from hotplaces_tb 
@@ -32,7 +46,8 @@
         using(user_no)
     </select>
     
-    <select id="selectHotplace" parameterType="int" resultMap="hotplaceDtoMap">
+    <!-- 게시글 상세 확인 -->
+    <select id="selectHotplace" parameterType="int" resultMap="extendHotplaceDtoMap">
         select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name
         from hotplaces_tb
         left join users_tb 
@@ -40,13 +55,24 @@
         where hotplace_no = #{hotplaceNo}
     </select>
 
+    <!-- 게시글 상세 확인 : 댓글 조회 -->
+    <select id="commentList" resultMap="commentDtoMap">
+        select * from comment_tb where hotplace_no = #{hotplace_no}
+    </select>
+
+    <!-- 게시글 상세 확인 : 사진 조회 -->
+    <select id="pictureList"  resultMap="hotplacePictureDtoMap">
+        select * from hotplace_picture_tb where hotplace_no = #{hotplace_no}
+    </select>
+
+    <!-- 게시글 작성 -->
     <insert id="insertHotplace" parameterType="hotplaceDto">
         insert into hotplaces_tb(`user_no`, `hotplace_title`,`hotplace_text`)
         value
         (#{userNo}, #{hotplaceTitle}, #{hotplaceText});
     </insert>
 
-
+    <!-- 게시글 조회수 올리기 -->
     <update id="increaseHotplaceViews" parameterType="int">
         update hotplaces_tb 
         set 
@@ -54,6 +80,7 @@
         where hotplace_no = #{hotplaceNo}
     </update>
 
+    <!-- 게시글 수정 -->
     <update id="updateHotplace" parameterType="hotplaceDto">
         update hotplaces_tb set
         hotplace_title = #{hotplaceTitle},
@@ -62,11 +89,9 @@
         where hotplace_no = #{hotplaceNo}
     </update>
 
+    <!-- 게시글 삭제 -->
     <delete id="deleteHotplace" parameterType="int">
         delete from hotplaces_tb where hotplace_no = #{hotplaceNo}
     </delete>
-
-
-    
 
 </mapper>
