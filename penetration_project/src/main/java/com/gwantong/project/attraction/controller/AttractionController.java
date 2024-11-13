@@ -12,6 +12,7 @@ import com.gwantong.project.attraction.dto.AttractionDto;
 import com.gwantong.project.attraction.service.AttractionService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -23,8 +24,8 @@ public class AttractionController {
 
     @Operation(summary = "관광지 전체보기", description = "상위 관광지 100개를 조회한다.")
     @GetMapping("/")
-    public ResponseEntity<?> viewAll() {
-        List<AttractionDto> list = attractionService.viewAll();
+    public ResponseEntity<?> viewAll(@RequestBody AttractionDto attraction) {
+        List<AttractionDto> list = attractionService.viewAll(attraction);
         if (list != null) {
             return ResponseEntity.ok(list);
         } else {

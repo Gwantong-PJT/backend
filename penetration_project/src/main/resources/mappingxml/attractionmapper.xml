@@ -41,7 +41,15 @@
 -->
 
 <select id="viewAll" resultMap="attractionDtoMap">
-    select * from attractions limit 0, 100;
+    select * from attractions
+    where 1=1
+    <if test = "areaCode != null and areaCode != 0">
+        and area_code = #{areaCode}
+    </if>
+    <if test = "contentTypeId != null and contentTypeId != 0">
+        and content_type_id = #{contentTypeId}
+    </if>
+    limit 0, 100;
 </select>
 
 </mapper>

@@ -14,7 +14,7 @@ public class AttractionServiceImpl implements AttractionService {
     AttractionMapper attractionMapper;
 
     @Override
-    public List<AttractionDto> viewAll() {
-        return attractionMapper.viewAll();
+    public List<AttractionDto> viewAll(AttractionDto attraction) {
+        return attractionMapper.viewAll(attraction);
     }
 }

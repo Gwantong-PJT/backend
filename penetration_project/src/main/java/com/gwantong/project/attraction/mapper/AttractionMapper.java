@@ -8,5 +8,5 @@ import com.gwantong.project.attraction.dto.AttractionDto;
 
 @Mapper
 public interface AttractionMapper {
-    List<AttractionDto> viewAll();
+    List<AttractionDto> viewAll(AttractionDto attraction);
 }
