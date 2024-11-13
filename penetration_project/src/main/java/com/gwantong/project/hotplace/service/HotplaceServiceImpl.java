@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gwantong.project.hotplace.dto.CommentDto;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
 import com.gwantong.project.hotplace.mapper.HotplaceMapper;
 
@@ -53,6 +54,39 @@ public class HotplaceServiceImpl implements HotplaceService {
         int result;
         try {
             result = hotplacesMapper.deleteHotplace(hotplaceNo);
+        } catch (Exception e) {
+            result = -1;
+        }
+        return result;
+    }
+
+    @Override
+    public int insertComment(CommentDto commentDto) {
+        int result;
+        try {
+            result = hotplacesMapper.insertComment(commentDto);
+        } catch (Exception e) {
+            result = -1;
+        }
+        return result;
+    }
+
+    @Override
+    public int updateComment(CommentDto commentDto) {
+        int result;
+        try {
+            result = hotplacesMapper.updateComment(commentDto);
+        } catch (Exception e) {
+            result = -1;
+        }
+        return result;
+    }
+
+    @Override
+    public int deleteComment(int commentDto) {
+        int result;
+        try {
+            result = hotplacesMapper.deleteComment(commentDto);
         } catch (Exception e) {
             result = -1;
         }

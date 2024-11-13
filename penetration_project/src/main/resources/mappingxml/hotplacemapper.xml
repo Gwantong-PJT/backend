@@ -94,4 +94,24 @@
         delete from hotplaces_tb where hotplace_no = #{hotplaceNo}
     </delete>
 
+
+
+    <!-- 댓글 작성 -->
+    <insert id="insertComment" parameterType="commentDto">
+        insert into comment_tb(`hotplace_no`, `user_no`, `comment_text`)
+        value (#{hotplaceNo}, #{userNo}, #{commentText})
+    </insert>
+
+    <!-- 댓글 수정 -->
+    <update id="updateComment" parameterType="commentDto">
+        update comment_tb
+        set comment_text = #{commentText}
+        where comment_no =#{commentNo}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="deleteComment" parameterType="int">
+        delete from comment_tb where comment_no = #{commentNo}
+    </delete>
+
 </mapper>

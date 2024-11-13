@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gwantong.project.hotplace.dto.CommentDto;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
 import com.gwantong.project.hotplace.service.HotplaceService;
 
@@ -37,7 +38,7 @@ public class HotplaceController {
         }
     }
 
-    @Operation(summary = "특정 글 보기", description = "파라미터로 글 번호(int hotpl_no = hotplaceNo)를 넘기면<br>해당 글을 상세 조회")
+    @Operation(summary = "특정 글 보기", description = "파라미터로 글 번호(int hotpl_no = hotplaceNo)를 넘기면<br>해당 글을 상세 조회<br>해당 글에 올라간 댓글과 사진들도 같이 조회 됨")
     @GetMapping("/{hotpl_no}")
     public ResponseEntity<?> selectHotplace(@PathVariable("hotpl_no") int hotpl_no) {
         HotplaceDto hotpl = hotplacesService.selectHotplace(hotpl_no);
@@ -81,4 +82,40 @@ public class HotplaceController {
         }
     }
 
+    // ==============================
+    // ============= 댓글 ===========
+    // ==============================
+
+    @Operation(summary = "댓글 쓰기", description = "댓글 쓰기를 진행한다.<br>댓글 번호는 자동 입력되므로 입력할 필요 X<br>핫플 번호(hotplaceNo), 유저 정보(userNo)는 필수<br> - 현재 로그인 된 사용자랑 보고있는 글 번호 넘기기<br>본문 공백도 상관없음")
+    @PostMapping("/comment")
+    public ResponseEntity<?> insertComment(@RequestBody CommentDto comment) {
+        int result = hotplacesService.insertComment(comment);
+        if (result == 1) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+
+    @Operation(summary = "댓글 수정", description = "댓글 수정을 진행한다.<br>댓글 번호에 해당되는 댓글의 내용을 수정(commentNo 필수)<br>본문만 수정 가능. 날짜는 갱신시각으로 자동 교체 됨<br>")
+    @PutMapping("/comment")
+    public ResponseEntity<?> updateComment(@RequestBody CommentDto comment) {
+        int result = hotplacesService.updateComment(comment);
+        if (result == 1) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+
+    @Operation(summary = "댓글 삭제", description = "댓글 삭제를 진행한다.<br>댓글 번호에 해당되는 글을 삭제(commentNo 필수)<br>")
+    @DeleteMapping("/comment")
+    public ResponseEntity<?> deleteComment(@RequestBody int comment) {
+        int result = hotplacesService.deleteComment(comment);
+        if (result == 1) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
 }
