@@ -29,10 +29,11 @@ public class SwaggerConfiguration {
 
         StringBuilder desc = new StringBuilder()
                 .append("<b>작성자</b> : 신주환<br>")
-                .append("<h4>POST: /user/login, POST: /user/signup 이외의 모든 기능은 로그인을 진행하고 나온<br>")
+                .append("<h4>POST: /user/login(로그인), POST: /user/signup(회원 가입) 이외의 모든 기능은 로그인을 진행하고 나온<br>")
                 .append("JWT 토큰과 로그인 한 유저 ID를 Authorize에 넣고 진행</h4><br>")
                 .append("<b>응답 코드</b><br>")
                 .append("200 : 정상 응답<br>")
+                .append("204 : 컨텐츠 없음 (파라미터 오류)<br>")
                 .append("400 : 잘못된 요청 (파라미터 오류)<br>")
                 .append("401 : 인증 실패 (jwt토큰이 잘못 됐거나 userId와 맞지 않음. 로그인 다시 시도)<br>")
                 .append("404 : 페이지 없음 (대체로 URL 실수)<br>")

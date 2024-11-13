@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!--연결할 mapper객체(java) 연결-->
-<mapper namespace="com.gwantong.project.hotplace.mapper.HotplacesMapper">
+<mapper namespace="com.gwantong.project.hotplace.mapper.HotplaceMapper">
 
     <!--아래 type에 명시된 dto들은 application.properties의 mybatis설정에서 alias가 설정된 객체들-->
     <!--아래는 resultMap 설정. type=저장객체, id=이름, column=DB결과, property=객체의 필드-->

@@ -37,7 +37,7 @@ public class HotplaceController {
         }
     }
 
-    @Operation(summary = "특정 글 보기", description = "파라미터로 글 번호(hotplaceNo)를 넘기면<br>해당 글을 상세 조회")
+    @Operation(summary = "특정 글 보기", description = "파라미터로 글 번호(int hotpl_no = hotplaceNo)를 넘기면<br>해당 글을 상세 조회")
     @GetMapping("/{hotpl_no}")
     public ResponseEntity<?> selectHotplace(@PathVariable("hotpl_no") int hotpl_no) {
         HotplaceDto hotpl = hotplacesService.selectHotplace(hotpl_no);
@@ -59,6 +59,7 @@ public class HotplaceController {
         }
     }
 
+    @Operation(summary = "글 수정", description = "글 수정을 진행한다.<br>글 번호에 해당되는 글의 내용을 수정(hotplaceNo 필수)<br>글 제목과 본문만 수정 가능. 날짜는 갱신시각으로 자동 교체 됨<br>")
     @PutMapping("/")
     public ResponseEntity<?> updateHotplace(@RequestBody HotplaceDto hotpl) {
         int result = hotplacesService.updateHotplace(hotpl);
@@ -69,6 +70,7 @@ public class HotplaceController {
         }
     }
 
+    @Operation(summary = "글 삭제", description = "글 삭제를 진행한다.<br>글 번호에 해당되는 글을 삭제(hotplaceNo 필수)<br>")
     @DeleteMapping("/")
     public ResponseEntity<?> deleteHotplace(@RequestBody int hotpl) {
         int result = hotplacesService.deleteHotplace(hotpl);
