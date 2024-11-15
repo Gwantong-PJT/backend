@@ -27,8 +27,8 @@ public class UserDto {
     @Schema(description = "나이 번호")
     private int ageNo;
 
-    @Schema(description = "거주 지역")
-    private int userResidence;
+    @Schema(description = "선호 지역")
+    private int userRegion;
 
     @Schema(description = "나이 (10대, 20대...)")
     private int ageValue;

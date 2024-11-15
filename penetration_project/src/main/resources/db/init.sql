@@ -18,13 +18,14 @@ CREATE TABLE if not exists `USERS_TB` (
 	`user_password`	varchar(20) not null,
 	`user_name`	varchar(20)	NULL default "user",
 	`user_role`	varchar(10)	NULL default "USER",
-	`user_profile`	varchar(100)	NULL,
+	`user_region`	varchar(100)	NULL,
 	`age_no`	int,
-	`user_residence`	int,
+	`user_region`	int,
     `user_sex` int,
     foreign key (age_no) references age_tb(age_no),
-    foreign key (user_residence) references sidos(sido_code)
+    foreign key (user_region) references sidos(sido_code)
 );
+
 
 insert into users_tb(`user_id`, `user_password`, `user_name`, `user_role`)
 values ("admin","1111","어드민1","ADMIN"),
