@@ -25,7 +25,7 @@ public class AttractionController {
     @Operation(summary = "관광지 전체보기", description = "상위 관광지 100개를 조회한다.<br>그냥 검색할 수도 있고, 아래 항목을 넣어서 검색할 수도 있다<br> - 카테고리(contentTypeId)<br> - 지역 번호(areaCode)")
     @GetMapping("/")
     public ResponseEntity<?> viewAll(@RequestBody AttractionDto attraction) {
-        List<AttractionDto> list = attractionService.viewAll(attraction);
+        List<AttractionDto> list = attractionService.viewAll(attraction, 2);
         if (list != null) {
             return ResponseEntity.ok(list);
         } else {

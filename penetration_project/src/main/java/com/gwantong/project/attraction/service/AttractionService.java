@@ -5,5 +5,5 @@ import java.util.List;
 import com.gwantong.project.attraction.dto.AttractionDto;
 
 public interface AttractionService {
-    List<AttractionDto> viewAll(AttractionDto attraction);
+    List<AttractionDto> viewAll(AttractionDto attraction, int pageNum);
 }

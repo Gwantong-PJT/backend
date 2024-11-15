@@ -13,8 +13,11 @@ public class AttractionServiceImpl implements AttractionService {
     @Autowired
     AttractionMapper attractionMapper;
 
+    final int PAGING = 100;
+
     @Override
-    public List<AttractionDto> viewAll(AttractionDto attraction) {
-        return attractionMapper.viewAll(attraction);
+    public List<AttractionDto> viewAll(AttractionDto attraction, int pageNum) {
+        int starting = (pageNum - 1) * PAGING;
+        return attractionMapper.viewAll(attraction, starting, PAGING);
     }
 }

@@ -43,13 +43,13 @@
 <select id="viewAll" resultMap="attractionDtoMap">
     select * from attractions
     where 1=1
-    <if test = "areaCode != null and areaCode != 0">
-        and area_code = #{areaCode}
+    <if test = "attraction.areaCode != 0">
+        and area_code = #{attraction.areaCode}
     </if>
-    <if test = "contentTypeId != null and contentTypeId != 0">
-        and content_type_id = #{contentTypeId}
+    <if test = "attraction.contentTypeId != 0">
+        and content_type_id = #{attraction.contentTypeId}
     </if>
-    limit 0, 100;
+    limit #{pageNum}, #{pageLen};
 </select>
 
 </mapper>
