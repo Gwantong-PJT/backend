@@ -48,11 +48,23 @@
     <update id="updateUser" parameterType="userDto">
     update users_tb
         set 
+        <if test = "userPassword != null and userPassword != ''">
         user_password = #{userPassword},
+        </if>
+        <if test = "userName != null and userName != ''">
         user_name = #{userName},
+        </if>
+        <if test = "userProfile != null and userProfile != ''">
         user_profile = #{userProfile},
+        </if>
+        <if test = "ageNo != 0">
         age_no = #{ageNo},
-        user_residence = #{userResidence}
+        </if>
+        <if test = "userResidence != 0">
+        user_residence = #{userResidence},
+        </if>
+        user_id = user_id
+        
         where user_id = #{userId};
     </update>
 
