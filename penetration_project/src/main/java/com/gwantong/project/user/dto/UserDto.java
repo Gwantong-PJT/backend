@@ -32,4 +32,7 @@ public class UserDto {
 
     @Schema(description = "나이 (10대, 20대...)")
     private int ageValue;
+
+    @Schema(description = "성별. 1=남 2=여")
+    private int userSex;
 }
