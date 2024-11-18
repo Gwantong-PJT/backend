@@ -30,8 +30,9 @@ public class SwaggerConfiguration {
         StringBuilder desc = new StringBuilder()
                 .append("<b>작성자</b> : 신주환<br>")
                 .append("<h4>POST: /user/login(로그인), POST: /user/signup(회원 가입) 이외의 모든 기능은 로그인을 진행하고 나온<br>")
-                .append("JWT 토큰과 로그인 한 유저 ID를 Authorize에 넣고 진행</h4><br>")
-                .append("<b>응답 코드</b><br>")
+                .append("JWT 토큰과 로그인 한 유저 ID를 Authorize에 넣고 진행</h4>")
+                .append("<h4>로그인은 30분간 유효<h4><br>")
+                .append("<h3>응답 코드</h3>")
                 .append("200 : 정상 응답<br>")
                 .append("204 : 컨텐츠 없음 (파라미터 오류)<br>")
                 .append("400 : 잘못된 요청 (파라미터 오류)<br>")
@@ -74,5 +75,10 @@ public class SwaggerConfiguration {
     @Bean
     public GroupedOpenApi attractionApi() {
         return GroupedOpenApi.builder().group("관광지정보").pathsToMatch("/attraction/**").build();
+    }
+
+    @Bean
+    public GroupedOpenApi noticeApi() {
+        return GroupedOpenApi.builder().group("공지사항").pathsToMatch("/notice/**").build();
     }
 }

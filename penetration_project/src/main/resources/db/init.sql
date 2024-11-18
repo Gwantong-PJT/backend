@@ -42,6 +42,8 @@ CREATE TABLE if not exists `hotplaces_tb` (
 	`hotplace_text`	varchar(10000),
 	`hotplace_date`	datetime NULL default CURRENT_TIMESTAMP,
 	`hotplace_views` int default 0,
+    `latitude` decimal(20,17),
+    `longitude` decimal(20,17),
     primary key (hotplace_no),
     foreign key (user_no) references users_tb(user_no) on delete cascade
 );
@@ -114,4 +116,21 @@ values
 (3, "3번 글 사진"),
 (4, "4번 글 1번 사진"),
 (5, "5번 글 사진")
+;
+
+
+CREATE TABLE `notice_tb` (
+	`notice_no`	int	NOT NULL auto_increment,
+	`user_no`	int	NOT NULL,
+	`notice_title`	varchar(100)	NULL,
+	`notice_text`	varchar(10000)	NULL,
+	`notice_date`	datetime NULL default CURRENT_TIMESTAMP,
+	`notice_file`	varchar(200)	NULL,
+    primary key (notice_no),
+    foreign key (user_no) references users_tb(user_no) on delete cascade
+);
+
+insert into notice_tb(`user_no`, `notice_title`,`notice_text`)
+values
+(1, "공지 1번입니다", "공지 사항 테스트 글 본문입니다")
 ;

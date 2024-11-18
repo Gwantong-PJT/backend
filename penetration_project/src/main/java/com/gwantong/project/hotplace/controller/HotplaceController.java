@@ -38,10 +38,10 @@ public class HotplaceController {
         }
     }
 
-    @Operation(summary = "특정 글 보기", description = "파라미터로 글 번호(int hotpl_no = hotplaceNo)를 넘기면<br>해당 글을 상세 조회<br>해당 글에 올라간 댓글과 사진들도 같이 조회 됨")
-    @GetMapping("/{hotpl_no}")
-    public ResponseEntity<?> selectHotplace(@PathVariable("hotpl_no") int hotpl_no) {
-        HotplaceDto hotpl = hotplacesService.selectHotplace(hotpl_no);
+    @Operation(summary = "특정 글 보기", description = "파라미터로 글 번호(hotplaceNo)를 넘기면<br>해당 글을 상세 조회<br>해당 글에 올라간 댓글과 사진들도 같이 조회 됨")
+    @GetMapping("/{hotplaceNo}")
+    public ResponseEntity<?> selectHotplace(@PathVariable("hotplaceNo") int hotplaceNo) {
+        HotplaceDto hotpl = hotplacesService.selectHotplace(hotplaceNo);
         if (hotpl != null) {
             return ResponseEntity.ok(hotpl);
         } else {

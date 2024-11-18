@@ -29,6 +29,12 @@ public class HotplaceDto {
     @Schema(description = "조회수")
     private int hotplaceViews;
 
+    @Schema(description = "위도")
+    private double latitude;
+
+    @Schema(description = "경도")
+    private double longitude;
+
     @Schema(description = "댓글들")
     private List<CommentDto> comments;
 
