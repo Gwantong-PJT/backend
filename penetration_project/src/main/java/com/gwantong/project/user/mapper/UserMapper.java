@@ -18,4 +18,6 @@ public interface UserMapper {
 
     int updateUser(UserDto user);
 
+    String findUserPassword(UserDto user);
+
 }

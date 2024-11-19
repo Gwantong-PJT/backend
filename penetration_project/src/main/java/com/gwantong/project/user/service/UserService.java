@@ -14,4 +14,6 @@ public interface UserService {
     int signUpUser(UserDto user);
 
     int updateUser(UserDto user);
+
+    String findUserPassword(UserDto user);
 }

@@ -54,4 +54,15 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public String findUserPassword(UserDto user) {
+        String findPw = userMapper.findUserPassword(user);
+
+        if (findPw != null && !(findPw.equals(""))) {
+            // 여기 작업 합시다
+        }
+
+        return findPw;
+    }
+
 }
