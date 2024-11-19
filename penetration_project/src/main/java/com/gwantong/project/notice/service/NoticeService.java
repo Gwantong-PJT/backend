@@ -8,4 +8,10 @@ public interface NoticeService {
     List<NoticeDto> viewAllNotices();
 
     NoticeDto viewNotice(int noticeNo);
+
+    int insertNotice(NoticeDto notice);
+
+    int updateNotice(NoticeDto notice);
+
+    int deleteNotice(int noticeNo);
 }

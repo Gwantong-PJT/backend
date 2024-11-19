@@ -23,8 +23,37 @@
         select * from notice_tb
     </select>
 
+    <!-- 선택 글 보기 -->
     <select id="viewNotice" parameterType="int" resultMap="noticeDtoMap">
         select * from notice_tb where notice_no = #{noticeNo}
     </select>
+
+    <!-- 공지사항 작성 -->
+    <insert id="insertNotice" parameterType="noticeDto">
+        insert into notice_tb(`user_no`, `notice_title`,`notice_text`
+        <if test= "noticeFile != null and noticeFile != ''">
+            ,`notice_file`
+        </if>
+        ) values (#{userNo}, #{noticeTitle}, #{noticeText}
+        <if test= "noticeFile != null and noticeFile != ''">
+            , #{noticeFile}
+        </if>
+        )
+    </insert>
+
+    <!-- 공지사항 수정 -->
+    <update id = "updateNotice" parameterType="noticeDto">
+    update notice_tb set notice_date = now()
+    <trim>
+    <if test = "noticeTitle != null and noticeTitle != ''">, notice_title = #{noticeTitle}</if>
+    <if test = "noticeText != null and noticeText != ''">, notice_text = #{noticeText}</if>
+    <if test = "noticeFile != null and noticeFile != ''">, notice_file = #{noticeFile}</if>
+    </trim>
+    where notice_no = #{noticeNo}
+    </update>
     
+    <!-- 공지사항 삭제 -->
+    <delete id = "deleteNotice" parameterType="int">
+    delete from notice_tb where notice_no = #{noticeNo}
+    </delete>
 </mapper>

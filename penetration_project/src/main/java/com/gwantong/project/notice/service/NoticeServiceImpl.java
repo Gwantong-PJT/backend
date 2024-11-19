@@ -22,4 +22,35 @@ public class NoticeServiceImpl implements NoticeService {
     public NoticeDto viewNotice(int noticeNo) {
         return noticeMapper.viewNotice(noticeNo);
     }
+
+    @Override
+    public int insertNotice(NoticeDto notice) {
+        try {
+            noticeMapper.insertNotice(notice);
+        } catch (Exception e) {
+            return 0;
+        }
+        return 1;
+    }
+
+    @Override
+    public int updateNotice(NoticeDto notice) {
+        try {
+            noticeMapper.updateNotice(notice);
+        } catch (Exception e) {
+            return 0;
+        }
+        return 1;
+
+    }
+
+    @Override
+    public int deleteNotice(int noticeNo) {
+        try {
+            noticeMapper.deleteNotice(noticeNo);
+        } catch (Exception e) {
+            return 0;
+        }
+        return 1;
+    }
 }

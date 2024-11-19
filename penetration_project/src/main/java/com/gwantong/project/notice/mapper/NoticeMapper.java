@@ -11,4 +11,11 @@ public interface NoticeMapper {
     List<NoticeDto> viewAllNotices();
 
     NoticeDto viewNotice(int noticeNo);
+
+    int insertNotice(NoticeDto notice) throws Exception;
+
+    int updateNotice(NoticeDto notice) throws Exception;
+
+    int deleteNotice(int noticeNo) throws Exception;
+
 }
