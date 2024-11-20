@@ -26,14 +26,14 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     // Interceptor 설정
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor)
-                .addPathPatterns("/user/**")
-                .addPathPatterns("/hotplace/**")
-                .addPathPatterns("/attraction/**")
-                .addPathPatterns("/notice/**")
-                .excludePathPatterns("/user/password")
-                .excludePathPatterns("/user/login")
-                .excludePathPatterns("/user/signup");
+        // registry.addInterceptor(jwtInterceptor)
+        // .addPathPatterns("/user/**")
+        // .addPathPatterns("/hotplace/**")
+        // .addPathPatterns("/attraction/**")
+        // .addPathPatterns("/notice/**")
+        // .excludePathPatterns("/user/password")
+        // .excludePathPatterns("/user/login")
+        // .excludePathPatterns("/user/signup");
     }
 
     // ResourceHandler 설정

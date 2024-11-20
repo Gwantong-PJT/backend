@@ -11,10 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gwantong.project.notice.dto.NoticeDto;
 import com.gwantong.project.notice.service.NoticeService;
+import com.gwantong.project.util.FileUpDownUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 public class NoticeController {
     @Autowired
     NoticeService noticeService;
+    @Autowired
+    FileUpDownUtil fileUpDownUtil;
 
     @Operation(summary = "모든 공지사항 보기", description = "모든 공지사항 글을 확인한다.<br>페이징은 아직 미구현")
     @GetMapping("/")
@@ -40,6 +45,23 @@ public class NoticeController {
     public ResponseEntity<?> viewNotice(@PathVariable("noticeNo") int noticeNo) {
         NoticeDto notice = noticeService.viewNotice(noticeNo);
         return ResponseEntity.ok(notice);
+    }
+
+    @Operation(summary = "공지사항 첨부파일 업로드", description = "공지사항에 첨부되어있는 파일을 다운로드 한다.<br>noticeNo에 공지사항 번호 넣어서 요청")
+    @PostMapping("/{noticeNo}/upload")
+    public ResponseEntity<?> uploadNoticeFile(@RequestParam("filing") MultipartFile file) {
+        if (fileUpDownUtil.uploadNoticeFile(file)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.internalServerError().body("업로드 실패");
+        }
+    }
+
+    @Operation(summary = "공지사항 첨부파일 다운로드", description = "공지사항에 첨부되어있는 파일을 다운로드 한다.<br>noticeNo에 공지사항 번호 넣어서 요청")
+    @GetMapping("/{noticeNo}/download")
+    public ResponseEntity<?> downloadNoticeFile(@PathVariable("noticeNo") String filename) {
+        // NoticeDto notice = noticeService.viewNotice(noticeNo);
+        return fileUpDownUtil.downloadNoticeFile(filename);
     }
 
     @Operation(summary = "공지사항 작성", description = "공지사항을 작성한다.<br>작성자 정보(userNo), 제목(noticeTitle) 필수<br>본문(noticeText)과 첨부파일(noticeFile)은 선택")
