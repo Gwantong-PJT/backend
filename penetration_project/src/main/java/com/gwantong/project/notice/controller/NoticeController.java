@@ -19,6 +19,7 @@ import com.gwantong.project.notice.dto.NoticeDto;
 import com.gwantong.project.notice.service.NoticeService;
 import com.gwantong.project.util.FileUpDownUtil;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -47,16 +48,16 @@ public class NoticeController {
         return ResponseEntity.ok(notice);
     }
 
-    @Operation(summary = "공지사항 첨부파일 업로드", description = "공지사항에 첨부되어있는 파일을 다운로드 한다.<br>noticeNo에 공지사항 번호 넣어서 요청")
-    @PostMapping("/{noticeNo}/upload")
-    public ResponseEntity<?> uploadNoticeFile(@RequestParam("filing") MultipartFile file) {
-        if (fileUpDownUtil.uploadNoticeFile(file)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.internalServerError().body("업로드 실패");
-        }
+    // @Hidden
+    // @Operation(summary = "공지사항 첨부파일 업로드", description = "공지사항에 파일을 업로드
+    // 한다.<br>noticeNo에 공지사항 번호 넣어서 요청")
+    // @PostMapping("/{noticeNo}/upload")
+    public String uploadNoticeFile(MultipartFile uploadFile) {
+        String uniqueFileName = fileUpDownUtil.uploadNoticeFile(uploadFile);
+        return uniqueFileName;
     }
 
+    @Hidden
     @Operation(summary = "공지사항 첨부파일 다운로드", description = "공지사항에 첨부되어있는 파일을 다운로드 한다.<br>noticeNo에 공지사항 번호 넣어서 요청")
     @GetMapping("/{noticeNo}/download")
     public ResponseEntity<?> downloadNoticeFile(@PathVariable("noticeNo") String filename) {
@@ -64,9 +65,28 @@ public class NoticeController {
         return fileUpDownUtil.downloadNoticeFile(filename);
     }
 
-    @Operation(summary = "공지사항 작성", description = "공지사항을 작성한다.<br>작성자 정보(userNo), 제목(noticeTitle) 필수<br>본문(noticeText)과 첨부파일(noticeFile)은 선택")
+    @Operation(summary = "공지사항 작성", description = "공지사항을 작성한다.<br>작성자 정보(userNo), 제목(noticeTitle) 필수<br>본문(noticeText)은 선택<br>첨부파일(noticeFileReal)은 선택")
     @PostMapping("/")
     public ResponseEntity<?> insertNotice(@RequestBody NoticeDto notice) {
+        System.out.println(notice.toString());
+        int result = noticeService.insertNotice(notice);
+        if (result == 1) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @Hidden
+    @Operation(summary = "공지사항 작성 + 첨부파일", description = "공지사항을 작성한다.<br>작성자 정보(userNo), 제목(noticeTitle) 필수<br>본문(noticeText)과 첨부파일(noticeFile)은 선택")
+    @PostMapping("/file")
+    public ResponseEntity<?> insertNotice(@RequestBody NoticeDto notice,
+            @RequestParam("uploadFile") MultipartFile uploadFile) {
+        if (uploadFile != null) {
+            notice.setNoticeFileReal(uploadFile.getOriginalFilename());
+            notice.setNoticeFileUnique(uploadNoticeFile(uploadFile));
+        }
+
         int result = noticeService.insertNotice(notice);
         if (result == 1) {
             return ResponseEntity.ok(result);
@@ -78,6 +98,7 @@ public class NoticeController {
     @Operation(summary = "공지사항 수정", description = "공지사항을 수정한다.<br>글 번호(noticeNo) 필수<br>제목(noticeTitle), 본문(noticeText)과 첨부파일(noticeFile)은 선택 사항.<br>작성자는 변경 불가")
     @PutMapping("/")
     public ResponseEntity<?> updateNotice(@RequestBody NoticeDto notice) {
+        System.out.println(notice);
         int result = noticeService.updateNotice(notice);
         if (result == 1) {
             return ResponseEntity.ok(result);
@@ -89,6 +110,7 @@ public class NoticeController {
     @Operation(summary = "공지사항 삭제", description = "공지사항을 삭제한다.<br>글 번호(noticeNo)로 해당 글을 삭제한다.<br>")
     @DeleteMapping("/")
     public ResponseEntity<?> deleteNotice(@RequestBody int noticeNo) {
+        System.out.println(noticeNo);
         int result = noticeService.deleteNotice(noticeNo);
         if (result == 1) {
             return ResponseEntity.ok(result);

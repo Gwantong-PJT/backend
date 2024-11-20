@@ -14,7 +14,8 @@
         <result column="notice_title" property="noticeTitle"/>
         <result column="notice_text" property="noticeText"/>
         <result column="notice_date" property="noticeDate"/>
-        <result column="notice_file" property="noticeFile"/>
+        <result column="notice_file_real" property="noticeFileReal"/>
+        <result column="notice_file_unique" property="noticeFileUnique"/>
     </resultMap>
 
 
@@ -31,12 +32,18 @@
     <!-- 공지사항 작성 -->
     <insert id="insertNotice" parameterType="noticeDto">
         insert into notice_tb(`user_no`, `notice_title`,`notice_text`
-        <if test= "noticeFile != null and noticeFile != ''">
-            ,`notice_file`
+        <if test= "noticeFileReal != null and noticeFileReal != ''">
+            ,`notice_file_real`
+        </if>
+        <if test= "noticeFileUnique != null and noticeFileUnique != ''">
+            ,`notice_file_unique`
         </if>
         ) values (#{userNo}, #{noticeTitle}, #{noticeText}
-        <if test= "noticeFile != null and noticeFile != ''">
-            , #{noticeFile}
+        <if test= "noticeFileReal != null and noticeFileReal != ''">
+            , #{noticeFileReal}
+        </if>
+        <if test= "noticeFileUnique != null and noticeFileUnique != ''">
+            , #{noticeFileUnique}
         </if>
         )
     </insert>
@@ -47,7 +54,8 @@
     <trim>
     <if test = "noticeTitle != null and noticeTitle != ''">, notice_title = #{noticeTitle}</if>
     <if test = "noticeText != null and noticeText != ''">, notice_text = #{noticeText}</if>
-    <if test = "noticeFile != null and noticeFile != ''">, notice_file = #{noticeFile}</if>
+    <if test = "noticeFileReal != null and noticeFileReal != ''">, notice_file = #{noticeFileReal}</if>
+    <if test = "noticeFileUnique != null and noticeFileUnique != ''">, notice_file = #{noticeFileUnique}</if>
     </trim>
     where notice_no = #{noticeNo}
     </update>

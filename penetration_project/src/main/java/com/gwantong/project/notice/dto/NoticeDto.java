@@ -21,6 +21,9 @@ public class NoticeDto {
     @Schema(description = "공지사항 작성일")
     private String noticeDate;
 
-    @Schema(description = "공지사항 첨부파일(링크)")
-    private String noticeFile;
+    @Schema(description = "공지사항 첨부파일(저장 시 적었던 실제 파일 이름)", example = "별첨1.pdf")
+    private String noticeFileReal;
+
+    @Schema(description = "공지사항 첨부파일(서버에서 고유명을 붙여서 저장한 이름)", example = "공지2_별첨1.pdf")
+    private String noticeFileUnique;
 }

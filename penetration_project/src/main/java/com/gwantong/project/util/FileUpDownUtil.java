@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -15,21 +16,24 @@ public class FileUpDownUtil {
     private static String UPLOAD_FOLDER = "uploads/";
     private static String NOTICE_FOLDER = "notices/";
 
-    public boolean uploadNoticeFile(MultipartFile file) {
+    public String uploadNoticeFile(MultipartFile file) {
         if (file.isEmpty()) {
-            return false;
+            return null;
         }
 
         try {
             // 업로드 경로 확인 및 폴더 생성
-            Path path = Paths.get(UPLOAD_FOLDER + NOTICE_FOLDER + file.getOriginalFilename());
-            Files.createDirectories(path.getParent());
+            String uniqueFileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
+            String uniqueFileURL = UPLOAD_FOLDER + NOTICE_FOLDER + uniqueFileName;
+            Path path = Paths.get(uniqueFileURL);
 
+            Files.createDirectories(path.getParent());
             // 파일 저장
             file.transferTo(path);
-            return true;
+
+            return uniqueFileURL;
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
 

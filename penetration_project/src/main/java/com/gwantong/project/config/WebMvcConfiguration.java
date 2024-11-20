@@ -19,8 +19,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     // CORS 설정
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // TODO Auto-generated method stub
-        WebMvcConfigurer.super.addCorsMappings(registry);
+        registry.addMapping("/**") // 모든 요청 경로
+                .allowedOrigins("http://localhost:5173", "http://localhost:8520") // 허용할 출처
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP 메서드
+                .allowedHeaders("*") // 모든 헤더 허용
+                .allowCredentials(true); // 쿠키를 포함한 요청 허용
     }
 
     // Interceptor 설정
