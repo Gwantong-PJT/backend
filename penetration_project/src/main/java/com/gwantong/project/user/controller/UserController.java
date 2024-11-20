@@ -67,6 +67,17 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "비밀번호 찾기", description = "userId와 userName으로 해당 계정의 비밀번호를 검색한다.<br>비밀 번호는 앞자리 일부를 제외하고는 * 처리 되어 반환된다.")
+    @PostMapping("/password")
+    public ResponseEntity<?> findUserPassword(@RequestBody UserDto user) {
+        String userPw = userService.findUserPassword(user);
+        if (userPw != null) {
+            return ResponseEntity.ok(userPw);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
     @Operation(summary = "회원 가입", description = "정보를 입력하여 회원 가입을 진행<br>userId와 userPassword는 필수<br>나머지는 선택, 필요 없다면 지울것<br>userNo, userRole은 자동으로 입력됨")
     @PostMapping("/signup")
     public ResponseEntity<?> signUpUser(@RequestBody UserDto requestUser) {

@@ -58,11 +58,27 @@ public class UserServiceImpl implements UserService {
     public String findUserPassword(UserDto user) {
         String findPw = userMapper.findUserPassword(user);
 
-        if (findPw != null && !(findPw.equals(""))) {
-            // 여기 작업 합시다
+        // 없으면 null 반환
+        if (findPw == null || findPw.equals("")) {
+            return null;
         }
 
-        return findPw;
+        // 검색 성공 시 * 처리
+        if (findPw.length() == 1) {
+            return findPw;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        if (findPw.length() <= 7) {
+            String tmp = findPw.substring(0, findPw.length() / 2);
+            sb.append(tmp).append("*".repeat(findPw.length() - tmp.length()));
+        } else {
+            String tmp = findPw.substring(0, 4);
+            sb.append(tmp).append("*".repeat(findPw.length() - tmp.length()));
+        }
+
+        return sb.toString();
     }
 
 }

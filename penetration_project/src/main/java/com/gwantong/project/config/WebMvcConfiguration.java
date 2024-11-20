@@ -31,6 +31,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/hotplace/**")
                 .addPathPatterns("/attraction/**")
                 .addPathPatterns("/notice/**")
+                .excludePathPatterns("/user/password")
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/signup");
     }

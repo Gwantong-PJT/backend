@@ -29,7 +29,7 @@ public class SwaggerConfiguration {
 
         StringBuilder desc = new StringBuilder()
                 .append("<b>작성자</b> : 신주환<br>")
-                .append("<h4>POST: /user/login(로그인), POST: /user/signup(회원 가입) 이외의 모든 기능은 로그인을 진행하고 나온<br>")
+                .append("<h4>POST: /user/login(로그인), POST: /user/signup(회원 가입), GET: /user/password(비밀번호 찾기) 이외의 모든 기능은 로그인을 진행하고 나온<br>")
                 .append("JWT 토큰과 로그인 한 유저 ID를 Authorize에 넣고 진행</h4>")
                 .append("<h4>로그인은 30분간 유효<h4><br>")
                 .append("<h3>응답 코드</h3>")
