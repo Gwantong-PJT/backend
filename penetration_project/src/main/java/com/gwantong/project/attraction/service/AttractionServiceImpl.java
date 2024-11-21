@@ -20,4 +20,11 @@ public class AttractionServiceImpl implements AttractionService {
         int starting = (pageNum - 1) * PAGING;
         return attractionMapper.viewAll(attraction, starting, PAGING);
     }
+
+    @Override
+    public List<AttractionDto> searchByAgeRanking(int ageNo) {
+        List<AttractionDto> list = attractionMapper.searchByAgeRanking(ageNo);
+        return list;
+    }
+
 }

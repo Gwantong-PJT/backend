@@ -10,6 +10,9 @@ import com.gwantong.project.hotplace.dto.CommentDto;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
 import com.gwantong.project.hotplace.mapper.HotplaceMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class HotplaceServiceImpl implements HotplaceService {
     @Autowired
@@ -24,7 +27,10 @@ public class HotplaceServiceImpl implements HotplaceService {
     @Transactional
     public HotplaceDto selectHotplace(int hotplaceNo) {
         hotplacesMapper.increaseHotplaceViews(hotplaceNo);
-        return hotplacesMapper.selectHotplace(hotplaceNo);
+        log.info("조회수 추가는 완료 됨");
+        HotplaceDto hotpl = hotplacesMapper.selectHotplace(hotplaceNo);
+        log.info("데이터 조회도 완료 됨");
+        return hotpl;
     }
 
     @Override

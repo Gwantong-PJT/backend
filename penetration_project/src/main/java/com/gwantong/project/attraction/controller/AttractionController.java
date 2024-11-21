@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,17 @@ public class AttractionController {
     @GetMapping("/")
     public ResponseEntity<?> viewAll(@RequestBody AttractionDto attraction) {
         List<AttractionDto> list = attractionService.viewAll(attraction, 2);
+        if (list != null) {
+            return ResponseEntity.ok(list);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @Operation(summary = "나이에 맞는 여행지 추천", description = "나이 번호(ageNo)넣어서 요청<br>나이에 맞는 여행지 중 조회 수 순으로 상위 6개 여행지 정보 반환")
+    @GetMapping("/age/{ageNo}")
+    public ResponseEntity<?> searchByAgeRanking(@PathVariable("ageNo") int ageNo) {
+        List<AttractionDto> list = attractionService.searchByAgeRanking(ageNo);
         if (list != null) {
             return ResponseEntity.ok(list);
         } else {

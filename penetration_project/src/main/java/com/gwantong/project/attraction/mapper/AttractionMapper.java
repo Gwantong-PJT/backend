@@ -9,4 +9,6 @@ import com.gwantong.project.attraction.dto.AttractionDto;
 @Mapper
 public interface AttractionMapper {
     List<AttractionDto> viewAll(AttractionDto attraction, int pageNum, int pageLen);
+
+    List<AttractionDto> searchByAgeRanking(int ageNo);
 }
