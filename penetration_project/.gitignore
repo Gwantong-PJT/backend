@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,macos,maven,gradle,visualstudiocode,visualstudio,java,kotlin,intellij,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,maven,gradle,visualstudiocode,visualstudio,java,kotlin,intellij,eclipse
 
+# uploads
+penetration_project/uploads/
+
 ### Eclipse ###
 .metadata
 bin/
