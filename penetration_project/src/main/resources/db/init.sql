@@ -71,6 +71,7 @@ CREATE TABLE `inquiry_tb` (
 	`attraction_no`	int	NOT NULL,
 	`age_no`	int	NOT NULL,
 	`views`	int	NULL,
+	primary key (attraction_no, age_no),
     foreign key (attraction_no) references attractions(attraction_no),
     foreign key (age_no) references age_tb(age_no)
 );
@@ -125,7 +126,8 @@ CREATE TABLE `notice_tb` (
 	`notice_title`	varchar(100)	NULL,
 	`notice_text`	varchar(10000)	NULL,
 	`notice_date`	datetime NULL default CURRENT_TIMESTAMP,
-	`notice_file`	varchar(200)	NULL,
+	`notice_file_real`	varchar(200)	NULL,
+	`notice_file_unique`	varchar(200)	NULL,
     primary key (notice_no),
     foreign key (user_no) references users_tb(user_no) on delete cascade
 );
@@ -133,4 +135,5 @@ CREATE TABLE `notice_tb` (
 insert into notice_tb(`user_no`, `notice_title`,`notice_text`)
 values
 (1, "공지 1번입니다", "공지 사항 테스트 글 본문입니다")
+(2, "공지 2번입니다", "하나는 아쉬워서 쓴 글 본문입니다")
 ;
