@@ -7,7 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.gwantong.project.attraction.dto.AttractionDto;
 import com.gwantong.project.attraction.mapper.AttractionMapper;
+import com.gwantong.project.user.dto.UserDto;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class AttractionServiceImpl implements AttractionService {
     @Autowired
@@ -22,9 +26,11 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public List<AttractionDto> searchByAgeRanking(int ageNo) {
-        List<AttractionDto> list = attractionMapper.searchByAgeRanking(ageNo);
+    public List<AttractionDto> searchByCondition(UserDto userDto) {
+        List<AttractionDto> list = attractionMapper.searchByCondition(userDto);
+        log.info(list.get(0).toString());
         return list;
+
     }
 
 }

@@ -54,8 +54,8 @@
     <trim>
     <if test = "noticeTitle != null and noticeTitle != ''">, notice_title = #{noticeTitle}</if>
     <if test = "noticeText != null and noticeText != ''">, notice_text = #{noticeText}</if>
-    <if test = "noticeFileReal != null and noticeFileReal != ''">, notice_file = #{noticeFileReal}</if>
-    <if test = "noticeFileUnique != null and noticeFileUnique != ''">, notice_file = #{noticeFileUnique}</if>
+    <if test = "noticeFileReal != null and noticeFileReal != ''">, notice_file_real = #{noticeFileReal}</if>
+    <if test = "noticeFileUnique != null and noticeFileUnique != ''">, notice_file_unique = #{noticeFileUnique}</if>
     </trim>
     where notice_no = #{noticeNo}
     </update>

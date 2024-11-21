@@ -5,17 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gwantong.project.attraction.dto.AttractionDto;
 import com.gwantong.project.attraction.service.AttractionService;
+import com.gwantong.project.user.dto.UserDto;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/attraction")
 @Tag(name = "관광지", description = "관광지 조회 (attractions)")
@@ -34,10 +37,18 @@ public class AttractionController {
         }
     }
 
-    @Operation(summary = "나이에 맞는 여행지 추천", description = "나이 번호(ageNo)넣어서 요청<br>나이에 맞는 여행지 중 조회 수 순으로 상위 6개 여행지 정보 반환")
-    @GetMapping("/age/{ageNo}")
-    public ResponseEntity<?> searchByAgeRanking(@PathVariable("ageNo") int ageNo) {
-        List<AttractionDto> list = attractionService.searchByAgeRanking(ageNo);
+    @Operation(summary = "조건으로 추천여행지 검색", description = "여러가지 조건에 맞추어 조회 수 순으로 높은 여행지 10곳을 반환<br>나이(ageNo), 지역(userRegion), 성별(userSex) 조건 검색 가능")
+    @GetMapping("/search")
+    public ResponseEntity<?> searchByCondition(@RequestParam(value = "userSex", defaultValue = "0") int userSex,
+            @RequestParam(value = "userRegion", defaultValue = "0") int userRegion,
+            @RequestParam(value = "ageNo", defaultValue = "0") int ageNo) {
+        UserDto user = new UserDto();
+        user.setAgeNo(ageNo);
+        user.setUserRegion(userRegion);
+        user.setUserSex(userSex);
+
+        log.info("검색 메소드 실행 : " + user.toString());
+        List<AttractionDto> list = attractionService.searchByCondition(user);
         if (list != null) {
             return ResponseEntity.ok(list);
         } else {

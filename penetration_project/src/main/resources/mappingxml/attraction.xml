@@ -52,16 +52,20 @@
     limit #{pageNum}, #{pageLen};
 </select>
 
-<!-- 나이 별 상위 6개 검색-->
-<select id="searchByAgeRanking" resultMap ="attractionDtoMap">
+<!-- 조건 별 상위 10개 검색-->
+<select id="searchByCondition" parameterType="userDto" resultMap ="attractionDtoMap">
     select * from attractions a inner join (
     select attraction_no, sum(views) as total from inquiry_tb
     join users_tb using(user_no)
     join attractions using(attraction_no)
-    where age_no = #{ageNo}
+    <trim prefix = "where" suffixOverrides = "and">
+        <if test = "ageNo != 0">age_no = #{ageNo} and</if>
+        <if test = "userSex != 0">user_sex = #{userSex} and</if>
+        <if test = "userRegion != 0">area_code = #{userRegion} and</if>
+    </trim>
     group by attraction_no
     order by total desc
-    limit 6
+    limit 10
     ) tmp
     on a.attraction_no = tmp.attraction_no;
 </select>

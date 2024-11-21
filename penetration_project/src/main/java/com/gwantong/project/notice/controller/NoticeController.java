@@ -103,7 +103,8 @@ public class NoticeController {
         }
     }
 
-    @Operation(summary = "공지사항 수정", description = "공지사항을 수정한다.<br>글 번호(noticeNo) 필수<br>제목(noticeTitle), 본문(noticeText)과 첨부파일(noticeFile)은 선택 사항.<br>작성자는 변경 불가")
+    ///// ========여기 수정 바람 ==============================
+    @Operation(summary = "공지사항 수정", description = "공지사항을 수정한다.<br>글 번호(noticeNo) 필수<br>제목(noticeTitle), 본문(noticeText)과 첨부파일(noticeFileReal)은 선택 사항.<br>작성자는 변경 불가")
     @PutMapping("/")
     public ResponseEntity<?> updateNotice(@RequestBody NoticeDto notice) {
         System.out.println(notice);
@@ -116,9 +117,9 @@ public class NoticeController {
     }
 
     @Operation(summary = "공지사항 삭제", description = "공지사항을 삭제한다.<br>글 번호(noticeNo)로 해당 글을 삭제한다.<br>")
-    @DeleteMapping("/")
-    public ResponseEntity<?> deleteNotice(@RequestBody int noticeNo) {
-        System.out.println(noticeNo);
+    @DeleteMapping("/{noticeNo}")
+    public ResponseEntity<?> deleteNotice(@PathVariable("noticeNo") int noticeNo) {
+        log.info("공지 삭제 요청 : " + noticeNo);
         int result = noticeService.deleteNotice(noticeNo);
         if (result == 1) {
             return ResponseEntity.ok(result);
