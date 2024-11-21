@@ -15,6 +15,8 @@
         <result column="hotplace_title" property="hotplaceTitle"/>
         <result column="hotplace_text" property="hotplaceText"/>
         <result column="hotplace_date" property="hotplaceDate"/>
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
         <result column="hotplace_views" property="hotplaceViews"/>
     </resultMap>
 
@@ -65,11 +67,30 @@
         select * from hotplace_picture_tb where hotplace_no = #{hotplace_no}
     </select>
 
+    <!-- 사용자가 작성한 게시글 확인 -->
+    <select id ="usersHotplaces" parameterType="int" resultMap = "hotplaceDtoMap">
+        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name
+        from hotplaces_tb
+        left join users_tb 
+        using(user_no)
+        where user_no = #{userNo};
+    </select>
+
     <!-- 게시글 작성 -->
     <insert id="insertHotplace" parameterType="hotplaceDto">
-        insert into hotplaces_tb(`user_no`, `hotplace_title`,`hotplace_text`)
+        insert into hotplaces_tb(`user_no`, `hotplace_title`,`hotplace_text`
+        <trim>
+            <if test="latitude != 0">,`latitude`</if>
+            <if test="longitude != 0">,`longitude`</if>
+        </trim>
+        )
         value
-        (#{userNo}, #{hotplaceTitle}, #{hotplaceText});
+        (#{userNo}, #{hotplaceTitle}, #{hotplaceText}
+        <trim>
+            <if test="latitude != 0">,#{latitude}</if>
+            <if test="longitude != 0">,#{longitude}</if>
+        </trim>
+        )
     </insert>
 
     <!-- 게시글 조회수 올리기 -->
@@ -82,10 +103,13 @@
 
     <!-- 게시글 수정 -->
     <update id="updateHotplace" parameterType="hotplaceDto">
-        update hotplaces_tb set
-        hotplace_title = #{hotplaceTitle},
-        hotplace_text = #{hotplaceText},
-        hotplace_date = now()
+        update hotplaces_tb set hotplace_date = now()
+        <trim>
+            <if test="latitude != 0">, latitude = #{latitude} </if>
+            <if test="longitude != 0">, longitude = #{longitude}</if>
+            <if test="hotplaceTitle != null and hotplaceTitle != ''">, hotplace_title = #{hotplaceTitle}</if>
+            <if test="hotplaceText != null and hotplaceText != ''">, hotplace_text = #{hotplaceText}</if>
+        </trim>
         where hotplace_no = #{hotplaceNo}
     </update>
 

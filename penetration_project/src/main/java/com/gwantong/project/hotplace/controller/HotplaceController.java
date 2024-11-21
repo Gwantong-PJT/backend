@@ -19,7 +19,9 @@ import com.gwantong.project.hotplace.service.HotplaceService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/hotplace")
 @Tag(name = "핫플레이스", description = "핫플레이스 글 보기, 쓰기, 수정, 삭제 등 (hotplaces_tb)")
@@ -49,6 +51,18 @@ public class HotplaceController {
         }
     }
 
+    @Operation(summary = "사용자가 작성한 글 보기", description = "파라미터로 사용자 번호(userNo)를 넘기면<br>해당 유저가 올린 핫플 게시글이 표시된다.<br>")
+    @GetMapping("/user/{userNo}")
+    public ResponseEntity<?> usersHotplaces(@PathVariable("userNo") int userNo) {
+        List<HotplaceDto> hotpls = hotplacesService.usersHotplaces(userNo);
+        //
+        if (hotpls != null) {
+            return ResponseEntity.ok(hotpls);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
     @Operation(summary = "글 쓰기", description = "글 쓰기를 진행한다.<br>PK는 글 번호(hotplaceNo)지만 자동 입력되므로 입력할 필요 X<br>유저 정보(userNo)는 필수, 로그인 된 사용자로 넘기기<br>나머진 필수 아님")
     @PostMapping("/")
     public ResponseEntity<?> insertHotplace(@RequestBody HotplaceDto hotpl) {
@@ -60,9 +74,10 @@ public class HotplaceController {
         }
     }
 
-    @Operation(summary = "글 수정", description = "글 수정을 진행한다.<br>글 번호에 해당되는 글의 내용을 수정(hotplaceNo 필수)<br>글 제목과 본문만 수정 가능. 날짜는 갱신시각으로 자동 교체 됨<br>")
+    @Operation(summary = "글 수정", description = "글 수정을 진행한다.<br>글 번호에 해당되는 글의 내용을 수정(hotplaceNo 필수)<br>제목, 본문, 위도/경도 중 변경을 원하는 정보 보내기<br> 날짜는 갱신시각으로 자동 교체 됨<br>작성자(회원번호 userNo)는 변경 불가")
     @PutMapping("/")
     public ResponseEntity<?> updateHotplace(@RequestBody HotplaceDto hotpl) {
+        log.info(hotpl.toString());
         int result = hotplacesService.updateHotplace(hotpl);
         if (result == 1) {
             return ResponseEntity.ok(result);

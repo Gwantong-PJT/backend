@@ -92,4 +92,9 @@ public class HotplaceServiceImpl implements HotplaceService {
         }
         return result;
     }
+
+    @Override
+    public List<HotplaceDto> usersHotplaces(int userNo) {
+        return hotplacesMapper.usersHotplaces(userNo);
+    }
 }

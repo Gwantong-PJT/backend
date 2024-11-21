@@ -11,6 +11,8 @@ import com.gwantong.project.hotplace.dto.HotplaceDto;
 public interface HotplaceMapper {
     List<HotplaceDto> viewAllHotplaces();
 
+    List<HotplaceDto> usersHotplaces(int userNo);
+
     void increaseHotplaceViews(int hotplaceNo);
 
     HotplaceDto selectHotplace(int hotplaceNo);

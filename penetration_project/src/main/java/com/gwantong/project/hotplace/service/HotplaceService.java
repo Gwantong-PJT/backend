@@ -8,6 +8,8 @@ import com.gwantong.project.hotplace.dto.HotplaceDto;
 public interface HotplaceService {
     List<HotplaceDto> viewAllHotplaces();
 
+    List<HotplaceDto> usersHotplaces(int userNo);
+
     HotplaceDto selectHotplace(int hotplaceNo);
 
     int insertHotplace(HotplaceDto hotplaceDto);

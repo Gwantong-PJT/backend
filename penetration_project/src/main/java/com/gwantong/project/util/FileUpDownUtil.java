@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class FileUpDownUtil {
     private static String UPLOAD_FOLDER = "uploads/";
@@ -50,7 +53,6 @@ public class FileUpDownUtil {
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Disposition", "attachment; filename=" + realFileName);
-
             return ResponseEntity.ok().headers(headers).body(fileContent);
 
         } catch (Exception e) {
