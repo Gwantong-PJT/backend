@@ -48,25 +48,26 @@ public class NoticeController {
         return ResponseEntity.ok(notice);
     }
 
-    // @Hidden
-    // @Operation(summary = "공지사항 첨부파일 업로드", description = "공지사항에 파일을 업로드
-    // 한다.<br>noticeNo에 공지사항 번호 넣어서 요청")
-    // @PostMapping("/{noticeNo}/upload")
+    @Hidden
+    @Operation(summary = "공지사항 첨부파일 업로드", description = "공지사항에 파일을 업로드한다.<br>noticeNo에 공지사항 번호 넣어서 요청")
     public String uploadNoticeFile(MultipartFile uploadFile) {
         String uniqueFileName = fileUpDownUtil.uploadNoticeFile(uploadFile);
         return uniqueFileName;
     }
 
-    @Hidden
     @Operation(summary = "공지사항 첨부파일 다운로드", description = "공지사항에 첨부되어있는 파일을 다운로드 한다.<br>noticeNo에 공지사항 번호 넣어서 요청")
     @GetMapping("/{noticeNo}/download")
-    public ResponseEntity<?> downloadNoticeFile(@PathVariable("noticeNo") String filename) {
-        // NoticeDto notice = noticeService.viewNotice(noticeNo);
-        return fileUpDownUtil.downloadNoticeFile(filename);
+    public ResponseEntity<?> downloadNoticeFile(@PathVariable("noticeNo") int noticeNo) {
+        NoticeDto notice = noticeService.viewNotice(noticeNo);
+        if (notice == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return fileUpDownUtil.downloadNoticeFile(notice.getNoticeFileUnique(), notice.getNoticeFileReal());
     }
 
+    @Hidden
     @Operation(summary = "공지사항 작성", description = "공지사항을 작성한다.<br>작성자 정보(userNo), 제목(noticeTitle) 필수<br>본문(noticeText)은 선택<br>첨부파일(noticeFileReal)은 선택")
-    @PostMapping("/")
+    @PostMapping("/file")
     public ResponseEntity<?> insertNotice(@RequestBody NoticeDto notice) {
         System.out.println(notice.toString());
         int result = noticeService.insertNotice(notice);
@@ -77,11 +78,18 @@ public class NoticeController {
         }
     }
 
-    @Hidden
-    @Operation(summary = "공지사항 작성 + 첨부파일", description = "공지사항을 작성한다.<br>작성자 정보(userNo), 제목(noticeTitle) 필수<br>본문(noticeText)과 첨부파일(noticeFile)은 선택")
-    @PostMapping("/file")
-    public ResponseEntity<?> insertNotice(@RequestBody NoticeDto notice,
-            @RequestParam("uploadFile") MultipartFile uploadFile) {
+    @Operation(summary = "공지사항 작성 + 첨부파일", description = "공지사항을 작성한다.<br>작성자 정보(userNo), 제목(noticeTitle) 필수<br>본문(noticeText)과 첨부파일은 선택")
+    @PostMapping("/")
+    public ResponseEntity<?> insertNotice(
+            @RequestParam("userNo") int userNo,
+            @RequestParam("noticeTitle") String noticeTitle,
+            @RequestParam("noticeText") String noticeText,
+            @RequestParam(value = "noticeFileReal", required = false) MultipartFile uploadFile) {
+
+        NoticeDto notice = new NoticeDto();
+        notice.setUserNo(userNo);
+        notice.setNoticeTitle(noticeTitle);
+        notice.setNoticeText(noticeText);
         if (uploadFile != null) {
             notice.setNoticeFileReal(uploadFile.getOriginalFilename());
             notice.setNoticeFileUnique(uploadNoticeFile(uploadFile));

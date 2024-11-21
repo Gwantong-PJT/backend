@@ -37,9 +37,9 @@ public class FileUpDownUtil {
         }
     }
 
-    public ResponseEntity<?> downloadNoticeFile(String filename) {
+    public ResponseEntity<?> downloadNoticeFile(String uniqueFileName, String realFileName) {
         try {
-            Path filepath = Paths.get(UPLOAD_FOLDER + NOTICE_FOLDER + filename);
+            Path filepath = Paths.get(uniqueFileName);
             File file = filepath.toFile();
 
             if (!file.exists()) {
@@ -49,7 +49,7 @@ public class FileUpDownUtil {
             byte[] fileContent = Files.readAllBytes(filepath);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Disposition", "attachment; filename=" + filename);
+            headers.add("Content-Disposition", "attachment; filename=" + realFileName);
 
             return ResponseEntity.ok().headers(headers).body(fileContent);
 
