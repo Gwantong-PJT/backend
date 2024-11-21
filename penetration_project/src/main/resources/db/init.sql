@@ -18,7 +18,7 @@ CREATE TABLE if not exists `USERS_TB` (
 	`user_password`	varchar(20) not null,
 	`user_name`	varchar(20)	NULL default "user",
 	`user_role`	varchar(10)	NULL default "USER",
-	`user_region`	varchar(100)	NULL,
+	`user_profile`	varchar(100)	NULL,
 	`age_no`	int,
 	`user_region`	int,
     `user_sex` int,
