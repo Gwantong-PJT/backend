@@ -53,7 +53,7 @@
 </select>
 
 <!-- 조건 별 상위 10개 검색-->
-<select id="searchByCondition" parameterType="userDto" resultMap ="attractionDtoMap">
+<select id="searchByUserCondition" parameterType="userDto" resultMap ="attractionDtoMap">
     select * from attractions a inner join (
     select attraction_no, sum(views) as total from inquiry_tb
     join users_tb using(user_no)
@@ -68,6 +68,16 @@
     limit 10
     ) tmp
     on a.attraction_no = tmp.attraction_no;
+</select>
+
+<select id = "searchByAttractionCondition" parameterType="attractionDto" resultMap = "attractionDtoMap">
+    select * from attractions 
+    <trim prefix = "where" suffixOverrides="and">
+        <if test = "contentTypeId != 0">content_type_id = #{contentTypeId} and</if>
+        <if test = "areaCode != 0">area_code = #{areaCode} and</if>
+        <if test = "title != null and title != ''">title LIKE CONCAT('%', #{title}, '%') and</if>
+    </trim>
+    limit 0, 100
 </select>
 
 </mapper>

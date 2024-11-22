@@ -79,7 +79,7 @@ public class HotplaceController {
     /// deprecated
     @Hidden
     @Operation(summary = "글 쓰기", description = "글 쓰기를 진행한다.<br>PK는 글 번호(hotplaceNo)지만 자동 입력되므로 입력할 필요 X<br>유저 정보(userNo)는 필수, 로그인 된 사용자로 넘기기<br>나머진 필수 아님")
-    @PostMapping("/")
+    @PostMapping("/file")
     public ResponseEntity<?> insertHotplace(@RequestBody HotplaceDto hotpl) {
         int result = hotplacesService.insertHotplace(hotpl);
         if (result == 1) {
@@ -91,7 +91,7 @@ public class HotplaceController {
 
     @Transactional
     @Operation(summary = "글 쓰기 + 사진 첨부", description = "글 쓰기를 진행한다.<br>PK는 글 번호(hotplaceNo)지만 자동 입력되므로 입력할 필요 X<br>유저 정보(userNo)는 필수, 로그인 된 사용자로 넘기기<br>나머진 필수 아님<br><b>스웨거로 사진 업로드 테스트가 잘 안됨. 근데 기능은 정상 작동 함</b>")
-    @PostMapping(value = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> insertHotplace(
             @RequestParam("userNo") int userNo,
             @RequestParam(value = "hotplaceTitle", required = false) String hotplaceTitle,
@@ -130,7 +130,6 @@ public class HotplaceController {
                 return ResponseEntity.internalServerError().body("fail to upload pictures in DB");
             }
         }
-
         return ResponseEntity.ok("all process success");
     }
 

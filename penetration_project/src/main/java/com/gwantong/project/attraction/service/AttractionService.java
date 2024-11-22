@@ -8,5 +8,7 @@ import com.gwantong.project.user.dto.UserDto;
 public interface AttractionService {
     List<AttractionDto> viewAll(AttractionDto attraction, int pageNum);
 
-    List<AttractionDto> searchByCondition(UserDto userDto);
+    List<AttractionDto> searchByUserCondition(UserDto userDto);
+
+    List<AttractionDto> searchByAttractionCondition(AttractionDto attraction);
 }

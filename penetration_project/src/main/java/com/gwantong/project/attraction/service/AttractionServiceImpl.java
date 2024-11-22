@@ -26,11 +26,16 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public List<AttractionDto> searchByCondition(UserDto userDto) {
-        List<AttractionDto> list = attractionMapper.searchByCondition(userDto);
+    public List<AttractionDto> searchByUserCondition(UserDto userDto) {
+        List<AttractionDto> list = attractionMapper.searchByUserCondition(userDto);
         log.info(list.get(0).toString());
         return list;
 
+    }
+
+    @Override
+    public List<AttractionDto> searchByAttractionCondition(AttractionDto attraction) {
+        return attractionMapper.searchByAttractionCondition(attraction);
     }
 
 }

@@ -11,5 +11,8 @@ import com.gwantong.project.user.dto.UserDto;
 public interface AttractionMapper {
     List<AttractionDto> viewAll(AttractionDto attraction, int pageNum, int pageLen);
 
-    List<AttractionDto> searchByCondition(UserDto userDto);
+    List<AttractionDto> searchByUserCondition(UserDto userDto);
+
+    List<AttractionDto> searchByAttractionCondition(AttractionDto attraction);
+
 }
