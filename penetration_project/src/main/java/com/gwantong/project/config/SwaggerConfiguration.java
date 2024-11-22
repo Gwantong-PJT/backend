@@ -86,4 +86,9 @@ public class SwaggerConfiguration {
     public GroupedOpenApi listApi() {
         return GroupedOpenApi.builder().group("리스트 유틸").pathsToMatch("/list/**").build();
     }
+
+    @Bean
+    public GroupedOpenApi fileApi() {
+        return GroupedOpenApi.builder().group("파일 유틸").pathsToMatch("/uploads/**").build();
+    }
 }
