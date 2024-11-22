@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gwantong.project.hotplace.dto.CommentDto;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
+import com.gwantong.project.hotplace.dto.HotplacePictureDto;
 
 @Mapper
 public interface HotplaceMapper {
@@ -29,5 +30,8 @@ public interface HotplaceMapper {
     int updateComment(CommentDto commentDto) throws Exception;
 
     int deleteComment(int commentDto) throws Exception;
+
+    // 사진 업로드
+    int uploadPicture(List<HotplacePictureDto> list);
 
 }

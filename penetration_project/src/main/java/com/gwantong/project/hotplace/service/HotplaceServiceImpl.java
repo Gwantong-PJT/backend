@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gwantong.project.hotplace.dto.CommentDto;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
+import com.gwantong.project.hotplace.dto.HotplacePictureDto;
 import com.gwantong.project.hotplace.mapper.HotplaceMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -102,5 +103,10 @@ public class HotplaceServiceImpl implements HotplaceService {
     @Override
     public List<HotplaceDto> usersHotplaces(int userNo) {
         return hotplacesMapper.usersHotplaces(userNo);
+    }
+
+    @Override
+    public int uploadPicture(List<HotplacePictureDto> list) {
+        return hotplacesMapper.uploadPicture(list);
     }
 }

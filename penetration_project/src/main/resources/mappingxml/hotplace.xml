@@ -77,7 +77,7 @@
     </select>
 
     <!-- 게시글 작성 -->
-    <insert id="insertHotplace" parameterType="hotplaceDto">
+    <insert id="insertHotplace" parameterType="hotplaceDto" useGeneratedKeys="true" keyProperty="hotplaceNo">
         insert into hotplaces_tb(`user_no`, `hotplace_title`,`hotplace_text`
         <trim>
             <if test="latitude != 0">,`latitude`</if>
@@ -118,7 +118,14 @@
         delete from hotplaces_tb where hotplace_no = #{hotplaceNo}
     </delete>
 
-
+    
+    <!-- 사진 업로드 -->
+    <insert id = "uploadPicture" parameterType="string">
+        insert into hotplace_picture_tb (`hotplace_no`,`picture_url`) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.hotplaceNo}, #{item.pictureUrl})
+        </foreach>
+    </insert>
 
     <!-- 댓글 작성 -->
     <insert id="insertComment" parameterType="commentDto">

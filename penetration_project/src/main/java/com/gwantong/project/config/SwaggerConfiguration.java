@@ -81,4 +81,9 @@ public class SwaggerConfiguration {
     public GroupedOpenApi noticeApi() {
         return GroupedOpenApi.builder().group("공지사항").pathsToMatch("/notice/**").build();
     }
+
+    @Bean
+    public GroupedOpenApi listApi() {
+        return GroupedOpenApi.builder().group("리스트 유틸").pathsToMatch("/list/**").build();
+    }
 }

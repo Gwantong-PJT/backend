@@ -18,12 +18,36 @@ import lombok.extern.slf4j.Slf4j;
 public class FileUpDownUtil {
     private static String UPLOAD_FOLDER = "uploads/";
     private static String NOTICE_FOLDER = "notices/";
+    private static String HOTPLACE_FOLDER = "hotplaces/";
+
+    public String[] uploadHotplacePicture(MultipartFile[] pictures) {
+        String[] pictureNames = new String[pictures.length];
+        int idx = 0;
+        try {
+            for (MultipartFile picture : pictures) {
+                // 업로드 경로 확인
+                String uniqueFileName = UUID.randomUUID().toString() + "-" + picture.getOriginalFilename();
+                String uniqueFileURL = UPLOAD_FOLDER + HOTPLACE_FOLDER + uniqueFileName;
+                Path path = Paths.get(uniqueFileURL);
+
+                // 디렉토리 없으면 만들기
+                Files.createDirectories(path.getParent());
+                // 파일 저장
+                picture.transferTo(path);
+
+                pictureNames[idx++] = uniqueFileURL;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+
+        return pictureNames;
+    }
 
     public String uploadNoticeFile(MultipartFile file) {
         if (file.isEmpty()) {
             return null;
         }
-
         try {
             // 업로드 경로 확인 및 폴더 생성
             String uniqueFileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();

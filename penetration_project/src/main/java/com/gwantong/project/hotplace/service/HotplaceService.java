@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gwantong.project.hotplace.dto.CommentDto;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
+import com.gwantong.project.hotplace.dto.HotplacePictureDto;
 
 public interface HotplaceService {
     List<HotplaceDto> viewAllHotplaces();
@@ -24,4 +25,7 @@ public interface HotplaceService {
     int updateComment(CommentDto commentDto);
 
     int deleteComment(int commentDto);
+
+    // 사진
+    int uploadPicture(List<HotplacePictureDto> list);
 }

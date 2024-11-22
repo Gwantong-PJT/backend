@@ -1,9 +1,12 @@
 package com.gwantong.project.hotplace.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,12 +14,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gwantong.project.hotplace.dto.CommentDto;
 import com.gwantong.project.hotplace.dto.HotplaceDto;
+import com.gwantong.project.hotplace.dto.HotplacePictureDto;
 import com.gwantong.project.hotplace.service.HotplaceService;
+import com.gwantong.project.util.FileUpDownUtil;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +36,8 @@ import lombok.extern.slf4j.Slf4j;
 public class HotplaceController {
     @Autowired
     HotplaceService hotplacesService;
+    @Autowired
+    FileUpDownUtil fileUpDownUtil;
 
     @Operation(summary = "모든 글 보기", description = "모든 글을 조회 한다.<br>페이징은 아직 미구현")
     @GetMapping("/")
@@ -66,6 +76,8 @@ public class HotplaceController {
         }
     }
 
+    /// deprecated
+    @Hidden
     @Operation(summary = "글 쓰기", description = "글 쓰기를 진행한다.<br>PK는 글 번호(hotplaceNo)지만 자동 입력되므로 입력할 필요 X<br>유저 정보(userNo)는 필수, 로그인 된 사용자로 넘기기<br>나머진 필수 아님")
     @PostMapping("/")
     public ResponseEntity<?> insertHotplace(@RequestBody HotplaceDto hotpl) {
@@ -75,6 +87,51 @@ public class HotplaceController {
         } else {
             return ResponseEntity.badRequest().body(result);
         }
+    }
+
+    @Transactional
+    @Operation(summary = "글 쓰기 + 사진 첨부", description = "글 쓰기를 진행한다.<br>PK는 글 번호(hotplaceNo)지만 자동 입력되므로 입력할 필요 X<br>유저 정보(userNo)는 필수, 로그인 된 사용자로 넘기기<br>나머진 필수 아님<br><b>스웨거로 사진 업로드 테스트가 잘 안됨. 근데 기능은 정상 작동 함</b>")
+    @PostMapping(value = "/file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> insertHotplace(
+            @RequestParam("userNo") int userNo,
+            @RequestParam(value = "hotplaceTitle", required = false) String hotplaceTitle,
+            @RequestParam(value = "hotplaceText", required = false) String hotplaceText,
+            @RequestParam(value = "latitude", defaultValue = "0") double latitude,
+            @RequestParam(value = "longitude", defaultValue = "0") double longitude,
+            @RequestParam(value = "pictures", required = false) MultipartFile[] pictures) {
+
+        HotplaceDto hotplaceDto = new HotplaceDto();
+        hotplaceDto.setUserNo(userNo);
+        hotplaceDto.setHotplaceTitle(hotplaceTitle);
+        hotplaceDto.setHotplaceText(hotplaceText);
+        hotplaceDto.setLatitude(latitude);
+        hotplaceDto.setLongitude(longitude);
+
+        int result = hotplacesService.insertHotplace(hotplaceDto);
+        if (result != 1) {
+            return ResponseEntity.badRequest().body("fail to insert text");
+        }
+
+        if (pictures != null) {
+            String[] pictureUrls = fileUpDownUtil.uploadHotplacePicture(pictures);
+            if (pictureUrls == null) {
+                return ResponseEntity.internalServerError().body("fail to upload pictures in system");
+            }
+
+            List<HotplacePictureDto> pictureDtos = new ArrayList<>();
+            for (String url : pictureUrls) {
+                HotplacePictureDto hotplpic = new HotplacePictureDto();
+                hotplpic.setHotplaceNo(hotplaceDto.getHotplaceNo());
+                hotplpic.setPictureUrl(url);
+                pictureDtos.add(hotplpic);
+            }
+            int uploadResult = hotplacesService.uploadPicture(pictureDtos);
+            if (uploadResult != pictureUrls.length) {
+                return ResponseEntity.internalServerError().body("fail to upload pictures in DB");
+            }
+        }
+
+        return ResponseEntity.ok("end success");
     }
 
     @Operation(summary = "글 수정", description = "글 수정을 진행한다.<br>글 번호에 해당되는 글의 내용을 수정(hotplaceNo 필수)<br>제목, 본문, 위도/경도 중 변경을 원하는 정보 보내기<br> 날짜는 갱신시각으로 자동 교체 됨<br>작성자(회원번호 userNo)는 변경 불가")
