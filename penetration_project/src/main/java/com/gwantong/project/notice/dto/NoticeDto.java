@@ -12,6 +12,9 @@ public class NoticeDto {
     @Schema(description = "작성자 번호")
     private int userNo;
 
+    @Schema(description = "작성자 이름")
+    private String userName;
+
     @Schema(description = "공지사항 제목")
     private String noticeTitle;
 

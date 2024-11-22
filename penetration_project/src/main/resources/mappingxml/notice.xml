@@ -11,6 +11,7 @@
     <resultMap type="noticeDto" id="noticeDtoMap">
         <result column="notice_no" property="noticeNo"/>
         <result column="user_no" property="userNo"/>
+        <result column="user_name" property="userName"/>
         <result column="notice_title" property="noticeTitle"/>
         <result column="notice_text" property="noticeText"/>
         <result column="notice_date" property="noticeDate"/>
@@ -21,12 +22,15 @@
 
     <!-- 모든 글 보기 -->
     <select id="viewAllNotices" resultMap="noticeDtoMap">
-        select * from notice_tb
+        select * from notice_tb 
+        join users_tb using(user_no)
     </select>
 
     <!-- 선택 글 보기 -->
     <select id="viewNotice" parameterType="int" resultMap="noticeDtoMap">
-        select * from notice_tb where notice_no = #{noticeNo}
+        select * from notice_tb
+        join users_tb using(user_no)
+        where notice_no = #{noticeNo}
     </select>
 
     <!-- 공지사항 작성 -->
