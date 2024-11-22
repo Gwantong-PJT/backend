@@ -134,6 +134,6 @@ CREATE TABLE `notice_tb` (
 
 insert into notice_tb(`user_no`, `notice_title`,`notice_text`)
 values
-(1, "공지 1번입니다", "공지 사항 테스트 글 본문입니다")
+(1, "공지 1번입니다", "공지 사항 테스트 글 본문입니다"),
 (2, "공지 2번입니다", "하나는 아쉬워서 쓴 글 본문입니다")
 ;
