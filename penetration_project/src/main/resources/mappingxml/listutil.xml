@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--연결할 mapper객체(java) 연결-->
+<mapper namespace="com.gwantong.project.list.mapper.ListMapper">
+
+    <!-- 시도 리스트 -->
+    <resultMap type="sidoListDto" id="sidoListDtoMap">
+        <result column="sido_no" property="sidoNo"/>
+        <result column="sido_code" property="sidoCode"/>
+        <result column="sido_name" property="sidoName"/>
+    </resultMap>
+
+    <select id="getSidoList" resultMap="sidoListDtoMap">
+        select * from sidos
+    </select>
+
+    <!-- 구군 리스트 -->
+    <resultMap type="gugunListDto" id="gugunListDtoMap">
+        <result column="gugun_no" property="gugunNo"/>
+        <result column="gugun_code" property="gugunCode"/>
+        <result column="gugun_name" property="gugunName"/>
+        <result column="sido_code" property="sidoCode"/>
+    </resultMap>
+
+    <select id="getGugunList" resultMap="gugunListDtoMap">
+        select * from guguns
+    </select>
+
+    <!-- 카테고리 리스트 -->
+    <resultMap type="contentTypeListDto" id="contentTypeListDtoMap">
+        <result column="content_type_id" property="contentTypeId"/>
+        <result column="content_type_name" property="contentTypeName"/>
+    </resultMap>
+
+    <select id="getContentTypeList" resultMap="contentTypeListDtoMap">
+        select * from contenttypes
+    </select>
+
+    <!-- 나이 리스트 -->
+    <resultMap type="ageListDto" id="ageListDtoMap">
+        <result column="age_no" property="ageNo"/>
+        <result column="age_value" property="ageValue"/>
+    </resultMap>
+
+    <select id="getAgeList" resultMap="ageListDtoMap">
+        select * from age_tb
+    </select>
+</mapper>
