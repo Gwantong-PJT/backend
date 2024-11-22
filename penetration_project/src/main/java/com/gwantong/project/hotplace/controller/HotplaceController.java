@@ -131,7 +131,7 @@ public class HotplaceController {
             }
         }
 
-        return ResponseEntity.ok("end success");
+        return ResponseEntity.ok("all process success");
     }
 
     @Operation(summary = "글 수정", description = "글 수정을 진행한다.<br>글 번호에 해당되는 글의 내용을 수정(hotplaceNo 필수)<br>제목, 본문, 위도/경도 중 변경을 원하는 정보 보내기<br> 날짜는 갱신시각으로 자동 교체 됨<br>작성자(회원번호 userNo)는 변경 불가")
