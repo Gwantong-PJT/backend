@@ -98,4 +98,11 @@
     limit 0, 100
 </select>
 
+<!-- 좋아요 설정/해제-->
+<insert id = "pushLikeyButton" parameterType ="int">
+    insert into like_tb
+    values(#{userNo}, #{attractionNo}, true)
+    on duplicate key update liked = not liked;
+</insert>
+
 </mapper>

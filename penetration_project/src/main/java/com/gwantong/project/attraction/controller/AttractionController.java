@@ -20,6 +20,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @Slf4j
 @RestController
@@ -87,5 +89,20 @@ public class AttractionController {
             return ResponseEntity.noContent().build();
         }
     }
+
+    @PostMapping("/like")
+    public ResponseEntity<?> pushLikeyButton(HttpServletRequest request, @RequestParam("attractionNo") int attractionNo) {
+        String userId = (String) request.getAttribute("userId");
+        int userNo = userService.getUserInfoByUserId(userId).getUserNo();
+
+        int result = attractionService.pushLikeyButton(userNo, attractionNo);
+        if(result == 1 || result == 2){
+            return ResponseEntity.ok("success");
+        }else{
+            return ResponseEntity.internalServerError().build();
+        }
+
+    }
+    
 
 }

@@ -38,4 +38,9 @@ public class AttractionServiceImpl implements AttractionService {
         return attractionMapper.searchByAttractionCondition2(attraction, userNo);
     }
 
+    @Override
+    public int pushLikeyButton(int userNo, int attractionNo) {
+        return attractionMapper.pushLikeyButton(userNo, attractionNo);
+    }
+
 }

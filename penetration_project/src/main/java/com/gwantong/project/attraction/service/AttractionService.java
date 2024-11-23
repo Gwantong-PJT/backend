@@ -11,4 +11,6 @@ public interface AttractionService {
     List<AttractionDto> searchByUserCondition(UserDto userDto);
 
     List<AttractionDto> searchByAttractionCondition(AttractionDto attraction , int userNo);
+
+    int pushLikeyButton(int userNo, int attractionNo);
 }
