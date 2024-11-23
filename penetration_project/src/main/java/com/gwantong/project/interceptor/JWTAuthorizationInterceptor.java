@@ -30,6 +30,8 @@ public class JWTAuthorizationInterceptor implements HandlerInterceptor {
 
         // GlobalExceptionHandler가 예외 처리 해줬으니 안심
         authorizationService.authorizeUser(userId, jwtToken);
+
+        request.setAttribute("userId", userId);
         return true;
     }
 }

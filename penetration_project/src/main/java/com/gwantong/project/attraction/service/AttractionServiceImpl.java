@@ -34,8 +34,8 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public List<AttractionDto> searchByAttractionCondition(AttractionDto attraction) {
-        return attractionMapper.searchByAttractionCondition(attraction);
+    public List<AttractionDto> searchByAttractionCondition(AttractionDto attraction , int userNo) {
+        return attractionMapper.searchByAttractionCondition2(attraction, userNo);
     }
 
 }

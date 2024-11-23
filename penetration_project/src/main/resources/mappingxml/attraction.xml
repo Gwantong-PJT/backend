@@ -24,6 +24,7 @@
         <result column="addr2" property="addr2"/>
         <result column="homepage" property="homepage"/>
         <result column="overview" property="overview"/>
+        <result column="liked" property="liked"/>
     </resultMap>
 
     <!--이건 모름-->
@@ -40,6 +41,8 @@
     </select>
 -->
 
+<!-- deprecated-->
+<!-- 
 <select id="viewAll" resultMap="attractionDtoMap">
     select * from attractions
     where 1=1
@@ -51,8 +54,9 @@
     </if>
     limit #{pageNum}, #{pageLen};
 </select>
+-->
 
-<!-- 조건 별 상위 10개 검색-->
+<!-- 조건 별 상위 100개 검색-->
 <select id="searchByUserCondition" parameterType="userDto" resultMap ="attractionDtoMap">
     select * from attractions a inner join (
     select attraction_no, sum(views) as total from inquiry_tb
@@ -65,7 +69,7 @@
     </trim>
     group by attraction_no
     order by total desc
-    limit 10
+    limit 100
     ) tmp
     on a.attraction_no = tmp.attraction_no;
 </select>
@@ -76,6 +80,20 @@
         <if test = "contentTypeId != 0">content_type_id = #{contentTypeId} and</if>
         <if test = "areaCode != 0">area_code = #{areaCode} and</if>
         <if test = "title != null and title != ''">title LIKE CONCAT('%', #{title}, '%') and</if>
+    </trim>
+    limit 0, 100
+</select>
+
+<!-- like 기능 추가본 -->
+<select id = "searchByAttractionCondition2" parameterType="attractionDto" resultMap = "attractionDtoMap">
+    select a.attraction_no, content_id,title, content_type_id, area_code, si_gun_gu_code, first_image1, first_image2, 
+        map_level, latitude, longitude, tel, addr1, addr2, homepage, overview, ifnull(liked,false) as liked
+    from attractions a
+    left join like_tb l on a.attraction_no = l.attraction_no and l.user_no = #{userNo}
+    <trim prefix = "where" suffixOverrides="and">
+        <if test = "attraction.contentTypeId != 0">content_type_id = #{attraction.contentTypeId} and</if>
+        <if test = "attraction.areaCode != 0">area_code = #{attraction.areaCode} and</if>
+        <if test = "attraction.title != null and attraction.title != ''">title LIKE CONCAT('%', #{attraction.title}, '%') and</if>
     </trim>
     limit 0, 100
 </select>

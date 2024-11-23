@@ -77,10 +77,6 @@ public class SwaggerConfiguration {
         return GroupedOpenApi.builder().group("관광지정보").pathsToMatch("/attraction/**").build();
     }
 
-    @Bean
-    public GroupedOpenApi noticeApi() {
-        return GroupedOpenApi.builder().group("공지사항").pathsToMatch("/notice/**").build();
-    }
 
     @Bean
     public GroupedOpenApi listApi() {

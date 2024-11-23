@@ -120,20 +120,11 @@ values
 ;
 
 
-CREATE TABLE `notice_tb` (
-	`notice_no`	int	NOT NULL auto_increment,
-	`user_no`	int	NOT NULL,
-	`notice_title`	varchar(100)	NULL,
-	`notice_text`	varchar(10000)	NULL,
-	`notice_date`	datetime NULL default CURRENT_TIMESTAMP,
-	`notice_file_real`	varchar(200)	NULL,
-	`notice_file_unique`	varchar(200)	NULL,
-    primary key (notice_no),
-    foreign key (user_no) references users_tb(user_no) on delete cascade
+Create table `like_tb` (
+	`user_no` int not null,
+	`attraction_no` int not null,
+	`liked` boolean not null,
+	primary key (user_no, attraction_no),
+	foreign key (user_no) references users_tb(user_no) on delete cascade,
+	foreign key (attraction_no) references attractions(attraction_no) on delete cascade
 );
-
-insert into notice_tb(`user_no`, `notice_title`,`notice_text`)
-values
-(1, "공지 1번입니다", "공지 사항 테스트 글 본문입니다"),
-(2, "공지 2번입니다", "하나는 아쉬워서 쓴 글 본문입니다")
-;

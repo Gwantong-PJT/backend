@@ -10,5 +10,5 @@ public interface AttractionService {
 
     List<AttractionDto> searchByUserCondition(UserDto userDto);
 
-    List<AttractionDto> searchByAttractionCondition(AttractionDto attraction);
+    List<AttractionDto> searchByAttractionCondition(AttractionDto attraction , int userNo);
 }

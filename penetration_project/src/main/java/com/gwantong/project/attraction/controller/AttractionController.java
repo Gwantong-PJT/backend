@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gwantong.project.attraction.dto.AttractionDto;
 import com.gwantong.project.attraction.service.AttractionService;
 import com.gwantong.project.user.dto.UserDto;
+import com.gwantong.project.user.service.UserService;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -26,6 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AttractionController {
     @Autowired
     AttractionService attractionService;
+    @Autowired
+    UserService userService;
 
     // deprecated
     @Hidden
@@ -40,7 +44,7 @@ public class AttractionController {
         }
     }
 
-    @Operation(summary = "사용자에게 맞는 추천여행지 검색", description = "여러가지 조건에 맞추어 조회 수 순으로 높은 여행지 10곳을 반환<br>나이(ageNo), 지역(userRegion), 성별(userSex) 조건 검색 가능")
+    @Operation(summary = "사용자에게 맞는 추천여행지 검색", description = "여러가지 조건에 맞추어 조회 수 순으로 높은 여행지 100곳을 반환<br>나이(ageNo), 지역(userRegion), 성별(userSex) 조건 검색 가능")
     @GetMapping("/user")
     public ResponseEntity<?> searchByCondition(@RequestParam(value = "userSex", defaultValue = "0") int userSex,
             @RequestParam(value = "userRegion", defaultValue = "0") int userRegion,
@@ -59,19 +63,24 @@ public class AttractionController {
         }
     }
 
-    @Operation(summary = "조건에 맞는 여행지 검색", description = "여러가지 조건에 맞추어 관광지 번호가 빠른 순으로 여행지 100곳을 반환<br>카테고리(contentTypeId), 지역(sidoCode), 검색어(keyWord) 조건 검색 가능<br>페이징은 추후에")
+    @Operation(summary = "조건에 맞는 여행지 검색", description = "여러가지 조건에 맞추어 관광지 번호가 빠른 순으로 여행지 100곳을 반환<br>카테고리(contentTypeId), 지역(sidoCode), 검색어(keyWord) 조건 검색 가능<br>페이징은 추후에<br><b>좋아요 기능때문에 Authorize에 userId 꼭 넣을것</b>")
     @GetMapping("/")
     public ResponseEntity<?> searchByAttractionCondition(
             @RequestParam(value = "contentTypeId", defaultValue = "0") int contentTypeId,
             @RequestParam(value = "sidoCode", defaultValue = "0") int sidoCode,
-            @RequestParam(value = "keyWord", required = false) String keyWord) {
+            @RequestParam(value = "keyWord", required = false) String keyWord,
+            HttpServletRequest request
+            ) {
         AttractionDto attraction = new AttractionDto();
         attraction.setContentTypeId(contentTypeId);
         attraction.setAreaCode(sidoCode);
         attraction.setTitle(keyWord);
 
-        log.info("100개 검색 메소드 실행 : " + attraction.toString());
-        List<AttractionDto> list = attractionService.searchByAttractionCondition(attraction);
+        String userId = (String) request.getAttribute("userId");
+        int userNo = userService.getUserInfoByUserId(userId).getUserNo();
+
+        log.info("100개 검색 메소드 실행 : " + attraction.toString() + ", 좋아요 유저 : " + userNo);
+        List<AttractionDto> list = attractionService.searchByAttractionCondition(attraction, userNo);
         if (list != null) {
             return ResponseEntity.ok(list);
         } else {

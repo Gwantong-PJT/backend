@@ -53,4 +53,7 @@ public class AttractionDto {
 
     @Schema(description = "개요")
     private String overview;
+
+    @Schema(description = "좋아요")
+    private boolean liked;
 }
