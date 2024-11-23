@@ -32,6 +32,16 @@ public class SwaggerConfiguration {
                 .append("<h4>POST: /user/login(로그인), POST: /user/signup(회원 가입), GET: /user/password(비밀번호 찾기) 이외의 모든 기능은 로그인을 진행하고 나온<br>")
                 .append("JWT 토큰과 로그인 한 유저 ID를 Authorize에 넣고 진행</h4>")
                 .append("<h4>로그인은 30분간 유효<h4><br>")
+
+                .append("<h2><font color ='red'>")
+                .append("사진 업로드 기능 구현 시")
+                .append("</font></h2>")
+                .append("다음과 같은 방법으로 백에서 multipart/form-data 형식으로 받을 수 있게 !<br>")
+                .append("html : form 태그 안에 속성으로 enctype=\"multipart/form-data\" 집어넣기 <br>")
+                .append("axios : axios.post(\"/upload\", formData, { headers: { \"Content-Type\": \"multipart/form-data\" } })<br>")
+
+                .append("<h2><font color ='red'>스웨거에서 파일 입출력 테스트 잘 안됨 주의!</font></h2>")
+
                 .append("<h3>응답 코드</h3>")
                 .append("200 : 정상 응답<br>")
                 .append("204 : 컨텐츠 없음 (파라미터 오류)<br>")
