@@ -144,14 +144,31 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(
         @RequestParam("userId") String userId,
-    @RequestParam("userPassword") String userPassword,
-    @RequestParam(value = "userName", required = false) String userName,
-    @RequestParam(value = "userProfile", required = false) MultipartFile userProfile,
-    @RequestParam(value = "ageNo", defaultValue = "0") int ageNo,
-    @RequestParam(value = "userRegion", defaultValue = "0") int userRegion,
-    @RequestParam(value = "userSex", defaultValue = "0") int userSex) {
+        @RequestParam(value = "userPassword", required = false) String userPassword,
+        @RequestParam(value = "userName", required = false) String userName,
+        @RequestParam(value = "userProfile", required = false) MultipartFile userProfile,
+        @RequestParam(value = "ageNo", defaultValue = "0") int ageNo,
+        @RequestParam(value = "userRegion", defaultValue = "0") int userRegion,
+        @RequestParam(value = "userSex", defaultValue = "0") int userSex) {
 
     UserDto requestUser = new UserDto();
+    requestUser.setUserId(userId);
+    requestUser.setUserPassword(userPassword);
+    requestUser.setUserName(userName);
+    requestUser.setAgeNo(ageNo);
+    requestUser.setUserRegion(userRegion);
+    requestUser.setUserSex(userSex);
+
+    //프로필 사진 세팅
+    if (userProfile != null) {
+        String profileUrl = fileUpDownUtil.uploadUserProfilePicture(userProfile);
+        if (profileUrl == null) {
+            return ResponseEntity.internalServerError().body("fail to upload pictures in system");
+        }
+        requestUser.setUserProfile(profileUrl);
+    }
+
+    log.info(requestUser.toString());
         int result = userService.updateUser(requestUser);
         if (result != 0) {
             return ResponseEntity.ok(result);

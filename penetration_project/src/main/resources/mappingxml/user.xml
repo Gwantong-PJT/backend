@@ -82,6 +82,9 @@
         <if test = "userRegion != 0">
         user_region = #{userRegion},
         </if>
+        <if test = "userRegion != 0">
+        user_sex = #{userSex},
+        </if>
         user_id = user_id
         
         where user_id = #{userId};
