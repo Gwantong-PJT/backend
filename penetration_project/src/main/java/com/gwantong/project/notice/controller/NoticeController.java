@@ -91,7 +91,7 @@ public class NoticeController {
         }
     }
 
-    ///// ========여기 수정 바람 ==============================
+    //deprecated
     @Hidden
     @Operation(summary = "공지사항 수정", description = "공지사항을 수정한다.<br>글 번호(noticeNo) 필수<br>제목(noticeTitle), 본문(noticeText)과 첨부파일(noticeFileReal)은 선택 사항.<br>작성자는 변경 불가")
     @PutMapping("/file")

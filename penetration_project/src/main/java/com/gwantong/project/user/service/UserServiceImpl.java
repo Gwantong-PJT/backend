@@ -39,9 +39,11 @@ public class UserServiceImpl implements UserService {
         } catch (SQLIntegrityConstraintViolationException e) {
             result = -1;
         } catch (Exception e) {
+            e.printStackTrace();
             result = -2;
         }
 
+        System.out.println(result);
         return result;
     }
 

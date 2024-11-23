@@ -19,6 +19,7 @@ public class FileUpDownUtil {
     private static String UPLOAD_FOLDER = "uploads/";
     private static String NOTICE_FOLDER = "notices/";
     private static String HOTPLACE_FOLDER = "hotplaces/";
+    private static String PROFILE_FOLDER = "profiles/";
 
     public String[] uploadHotplacePicture(MultipartFile[] pictures) {
         String[] pictureNames = new String[pictures.length];
@@ -42,6 +43,25 @@ public class FileUpDownUtil {
         }
 
         return pictureNames;
+    }
+
+    public String uploadUserProfilePicture(MultipartFile picture) {
+        String uniqueFileURL = null;
+        try {
+            // 업로드 경로 확인
+            String uniqueFileName = UUID.randomUUID().toString() + "-" + picture.getOriginalFilename();
+            uniqueFileURL = UPLOAD_FOLDER + PROFILE_FOLDER + uniqueFileName;
+            Path path = Paths.get(uniqueFileURL);
+
+            // 디렉토리 없으면 만들기
+            Files.createDirectories(path.getParent());
+            // 파일 저장
+            picture.transferTo(path);
+            
+        } catch (Exception e) {
+            return null;
+        }
+        return uniqueFileURL;
     }
 
     public String uploadNoticeFile(MultipartFile file) {
