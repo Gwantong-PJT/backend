@@ -90,6 +90,7 @@ public class AttractionController {
         }
     }
 
+    @Operation(summary = "좋아요 누르기", description = "attractionNo에 맞는 여행지를 좋아요 설정하기<br><b>Authorize에 userId 꼭 넣을것</b>")
     @PostMapping("/like")
     public ResponseEntity<?> pushLikeyButton(HttpServletRequest request, @RequestParam("attractionNo") int attractionNo) {
         String userId = (String) request.getAttribute("userId");
@@ -101,8 +102,20 @@ public class AttractionController {
         }else{
             return ResponseEntity.internalServerError().build();
         }
-
     }
-    
+
+    @Operation(summary = "좋아요 설정한 여행지 보기", description = "사용자가 좋아요 누른 항목들만 보기<br><b>Authorize에 userId 꼭 넣을것</b>")
+    @GetMapping("/like")
+    public ResponseEntity<?> viewLikeyAttractions(HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+        int userNo = userService.getUserInfoByUserId(userId).getUserNo();
+
+        List<AttractionDto> list = attractionService.viewLikeyAttractions(userNo);
+        if(list != null){
+            return ResponseEntity.ok(list);
+        }else{
+            return ResponseEntity.noContent().build();
+        }
+    }
 
 }

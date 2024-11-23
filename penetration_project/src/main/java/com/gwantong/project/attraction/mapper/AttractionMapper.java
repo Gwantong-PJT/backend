@@ -16,7 +16,8 @@ public interface AttractionMapper {
     List<AttractionDto> searchByAttractionCondition(AttractionDto attraction);
 
     List<AttractionDto> searchByAttractionCondition2(AttractionDto attraction, int userNo);
-
+    
     int pushLikeyButton(int userNo, int attractionNo);
-
+    
+    List<AttractionDto> viewLikeyAttractions(int userNo);
 }

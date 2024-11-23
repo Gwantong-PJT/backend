@@ -43,4 +43,9 @@ public class AttractionServiceImpl implements AttractionService {
         return attractionMapper.pushLikeyButton(userNo, attractionNo);
     }
 
+    @Override
+    public List<AttractionDto> viewLikeyAttractions(int userNo) {
+        return attractionMapper.viewLikeyAttractions(userNo);
+    }
+
 }

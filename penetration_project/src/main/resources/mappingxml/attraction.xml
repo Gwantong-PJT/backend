@@ -105,4 +105,13 @@
     on duplicate key update liked = not liked;
 </insert>
 
+<!-- 사용자가 좋아요한 여행지만 보기 -->
+<select id = "viewLikeyAttractions" resultMap = "attractionDtoMap">
+    select a.attraction_no, content_id,title, content_type_id, area_code, si_gun_gu_code, first_image1, first_image2, 
+        map_level, latitude, longitude, tel, addr1, addr2, homepage, overview, ifnull(liked,false) as liked
+    from attractions a
+    join like_tb l using(attraction_no)
+    where user_no = #{userNo} and liked = 1
+</select>
+
 </mapper>
