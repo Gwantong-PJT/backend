@@ -27,11 +27,13 @@ CREATE TABLE if not exists `USERS_TB` (
 );
 
 
-insert into users_tb(`user_id`, `user_password`, `user_name`, `user_role`)
-values ("admin","1111","어드민1","ADMIN"),
-("a","1","빠른관리자","ADMIN"),
-("ssafy","1234","싸피인","USER"),
-("aaa","4321","김싸피","USER")
+insert into users_tb(`user_id`, `user_password`, `user_name`, `age_no`, `user_region`, `user_sex`)
+values ("admin","1111","어드민1", 1, 1, 1),
+("a","1","빠른관리자",2, 1, 2),
+("ssafy","1234","싸피인",3, 6, 1),
+("aaa","4321","김싸피",2, 7, 2),
+("test1","111","테스터1",3, 7, 1),
+("test2","111","테스터2",2, 2, 2)
 ;
 
 -- Create table "hotplaces_tb"
@@ -69,11 +71,11 @@ CREATE TABLE if not exists `user_refresh_token_tb` (
 -- Create table "inquiry_tb"
 CREATE TABLE `inquiry_tb` (
 	`attraction_no`	int	NOT NULL,
-	`age_no`	int	NOT NULL,
+	`user_no`	int	NOT NULL,
 	`views`	int	NULL,
-	primary key (attraction_no, age_no),
+	primary key (attraction_no, user_no),
     foreign key (attraction_no) references attractions(attraction_no),
-    foreign key (age_no) references age_tb(age_no)
+    foreign key (user_no) references users_tb(user_no)
 );
 
 CREATE TABLE `comment_tb` (

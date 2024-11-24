@@ -9,10 +9,10 @@ public class UserDto {
     @Schema(description = "회원 번호", requiredMode = Schema.RequiredMode.AUTO)
     private int userNo;
 
-    @Schema(description = "아이디", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "아이디")
     private String userId;
 
-    @Schema(description = "비밀번호", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(description = "비밀번호")
     private String userPassword;
 
     @Schema(description = "이름")

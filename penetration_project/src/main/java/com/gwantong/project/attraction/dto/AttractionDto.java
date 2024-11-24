@@ -56,4 +56,11 @@ public class AttractionDto {
 
     @Schema(description = "좋아요")
     private boolean liked;
+
+    @Schema(description = "조회수")
+    private int views;
+
+    @Schema(description = "조회수 백분율")
+    private double viewPersent;
+    
 }

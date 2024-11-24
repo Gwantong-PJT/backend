@@ -25,6 +25,7 @@
         <result column="homepage" property="homepage"/>
         <result column="overview" property="overview"/>
         <result column="liked" property="liked"/>
+        <result column="views" property="views"/>
     </resultMap>
 
     <!--이건 모름-->
@@ -112,6 +113,21 @@
     from attractions a
     join like_tb l using(attraction_no)
     where user_no = #{userNo} and liked = 1
+</select>
+
+<!-- 원형 차트를 위한 검색 -->
+<select id = "getCircularChart" parameterType="userDto" resultMap = "attractionDtoMap">
+    select a.attraction_no, content_id,title, content_type_id, area_code, si_gun_gu_code, first_image1, first_image2, 
+        map_level, latitude, longitude, tel, addr1, addr2, homepage, overview, sum(views) as views
+    from inquiry_tb i
+    join users_tb u using(user_no)
+    join attractions a using(attraction_no)
+    <trim prefix="where" suffixOverrides="and">
+        <if test="ageNo != 0">age_no = #{ageNo} and</if>
+        <if test="userSex != 0">user_sex = #{userSex} and</if>
+    </trim>
+    group by a.attraction_no
+    order by views desc
 </select>
 
 </mapper>

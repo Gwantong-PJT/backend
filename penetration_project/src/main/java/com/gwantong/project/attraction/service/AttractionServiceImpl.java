@@ -48,4 +48,22 @@ public class AttractionServiceImpl implements AttractionService {
         return attractionMapper.viewLikeyAttractions(userNo);
     }
 
+    @Override
+    public List<AttractionDto> getCircularChart(UserDto user) {
+        List<AttractionDto> list = attractionMapper.getCircularChart(user);
+        double viewSum = 0;
+        for(AttractionDto att : list){
+            viewSum += att.getViews();
+        }
+        
+        for(AttractionDto att : list){
+            att.setViewPersent(Math.round(att.getViews() / viewSum * 100.0) / 100.0);
+        }
+        
+        for(AttractionDto att : list){
+            log.info(att.getViewPersent() + "");}
+
+        return list;
+    }
+
 }

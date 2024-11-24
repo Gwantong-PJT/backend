@@ -118,4 +118,20 @@ public class AttractionController {
         }
     }
 
+    @Operation(summary = "원형 차트 데이터 보기", description = "사용자의 나이와 성별이 비슷한 사람들이 많이 조회한 여행지를 추천")
+    @GetMapping("/chart")
+    public ResponseEntity<?> getCircularChart(@RequestParam(value = "ageNo", defaultValue = "0") int ageNo, 
+    @RequestParam(value = "userSex", defaultValue = "0") int userSex) {
+        UserDto user = new UserDto();
+        user.setAgeNo(ageNo);
+        user.setUserSex(userSex);
+
+        List<AttractionDto> list = attractionService.getCircularChart(user);
+        if(list != null){
+            return ResponseEntity.ok(list);
+        }else{
+            return ResponseEntity.noContent().build();
+        }
+    }
+
 }

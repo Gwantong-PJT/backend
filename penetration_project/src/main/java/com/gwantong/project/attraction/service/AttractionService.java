@@ -15,4 +15,6 @@ public interface AttractionService {
     int pushLikeyButton(int userNo, int attractionNo);
 
     List<AttractionDto> viewLikeyAttractions(int userNo);
+
+    List<AttractionDto> getCircularChart(UserDto user);
 }
