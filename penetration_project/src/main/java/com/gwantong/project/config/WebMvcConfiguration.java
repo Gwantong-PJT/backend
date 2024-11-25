@@ -24,7 +24,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 모든 요청 경로
                 .allowedOrigins("http://localhost:5173", "http://localhost:8520") // 허용할 출처
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP 메서드
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메서드
                 .allowedHeaders("*") // 모든 헤더 허용
                 .allowCredentials(true); // 쿠키를 포함한 요청 허용
     }
@@ -41,6 +41,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/hotplace/**")
                 .addPathPatterns("/attraction/**")
                 .addPathPatterns("/notice/**")
+                .addPathPatterns("/list/**")
+                .addPathPatterns("/uploads/**")
                 .excludePathPatterns("/user/password")
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/signup")

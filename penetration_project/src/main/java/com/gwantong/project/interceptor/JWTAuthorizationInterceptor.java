@@ -14,25 +14,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class JWTAuthorizationInterceptor implements HandlerInterceptor {
-    @Autowired
-    JWTUtil jwtUtil;
-    @Autowired
-    AuthorizationService authorizationService;
+        @Autowired
+        JWTUtil jwtUtil;
+        @Autowired
+        AuthorizationService authorizationService;
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
-        System.out.println("hiinter");
-        String jwtToken = request.getHeader("Jwt");
-        String userId = request.getHeader("User-Id");
+        @Override
+        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+                        throws Exception {
 
-        log.info("jwt in header : " + jwtToken);
-        log.info("userId in header : " + userId);
+                if ("OPTIONS".equals(request.getMethod())) {
+                        return true;
+                }
 
-        // GlobalExceptionHandler가 예외 처리 해줬으니 안심
-        authorizationService.authorizeUser(userId, jwtToken);
+                String jwtToken = request.getHeader("Jwt");
+                String userId = request.getHeader("User-Id");
 
-        request.setAttribute("userId", userId);
-        return true;
-    }
+                log.info("jwt in header : " + jwtToken);
+                log.info("userId in header : " + userId);
+
+                // GlobalExceptionHandler가 예외 처리 해줬으니 안심
+                authorizationService.authorizeUser(userId, jwtToken);
+
+                request.setAttribute("userId", userId);
+                return true;
+        }
 }

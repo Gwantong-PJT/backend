@@ -1,6 +1,5 @@
 package com.gwantong.project.user.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gwantong.project.authorization.service.AuthorizationService;
-import com.gwantong.project.hotplace.dto.HotplacePictureDto;
 import com.gwantong.project.user.dto.UserDto;
 import com.gwantong.project.user.service.UserService;
 import com.gwantong.project.util.FileUpDownUtil;
@@ -147,7 +145,6 @@ public class UserController {
             @RequestParam(value = "ageNo", defaultValue = "0") int ageNo,
             @RequestParam(value = "userRegion", defaultValue = "0") int userRegion,
             @RequestParam(value = "userSex", defaultValue = "0") int userSex) {
-
         UserDto requestUser = new UserDto();
         requestUser.setUserId(userId);
         requestUser.setUserPassword(userPassword);
