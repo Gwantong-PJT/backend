@@ -46,6 +46,8 @@ public class UserController {
     public ResponseEntity<?> loginUser(
             @Parameter(required = true, description = "로그인 할 사용자 ID") @RequestBody UserDto requestUser) {
         UserDto loginUser = userService.loginUser(requestUser);
+
+        log.info("로그인 유저 테스트 : " + loginUser.toString());
         if (loginUser != null) {
 
             Map<String, Object> responseObj = new HashMap<>();

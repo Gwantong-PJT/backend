@@ -15,8 +15,9 @@
         <result column="user_role" property="userRole"/>
         <result column="user_profile" property="userProfile"/>
         <result column="age_no" property="ageNo"/>
-        <result column="user_residence" property="userResidence"/>
+        <result column="user_region" property="userRegion"/>
         <result column="age_value" property="ageValue"/>
+        <result column="user_sex" property="userSex"/>
     </resultMap>
 
     <!--이건 모름-->
@@ -77,7 +78,7 @@
         <if test = "userRegion != 0">
         user_region = #{userRegion},
         </if>
-        <if test = "userRegion != 0">
+        <if test = "userSex != 0">
         user_sex = #{userSex},
         </if>
         user_id = user_id
