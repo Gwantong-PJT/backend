@@ -22,6 +22,11 @@ public class JWTAuthorizationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+
+        if ("OPTIONS".equals(request.getMethod())) {
+            return true;
+        }
+
         String jwtToken = request.getHeader("Jwt");
         String userId = request.getHeader("User-Id");
 
