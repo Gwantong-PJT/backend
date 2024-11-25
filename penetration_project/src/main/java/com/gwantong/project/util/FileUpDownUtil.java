@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
@@ -21,8 +22,8 @@ public class FileUpDownUtil {
     private static String HOTPLACE_FOLDER = "hotplaces/";
     private static String PROFILE_FOLDER = "profiles/";
 
-    public String[] uploadHotplacePicture(MultipartFile[] pictures) {
-        String[] pictureNames = new String[pictures.length];
+    public String[] uploadHotplacePicture(List<MultipartFile> pictures) {
+        String[] pictureNames = new String[pictures.size()];
         int idx = 0;
         try {
             for (MultipartFile picture : pictures) {

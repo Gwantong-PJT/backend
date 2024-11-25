@@ -91,14 +91,14 @@ public class HotplaceController {
 
     @Transactional
     @Operation(summary = "글 쓰기 + 사진 첨부", description = "글 쓰기를 진행한다.<br>PK는 글 번호(hotplaceNo)지만 자동 입력되므로 입력할 필요 X<br>유저 정보(userNo)는 필수, 로그인 된 사용자로 넘기기<br>나머진 필수 아님<br><b>스웨거로 사진 업로드 테스트가 잘 안됨. 근데 기능은 정상 작동 함</b>")
-    @PostMapping(value = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> insertHotplace(
             @RequestParam("userNo") int userNo,
             @RequestParam(value = "hotplaceTitle", required = false) String hotplaceTitle,
             @RequestParam(value = "hotplaceText", required = false) String hotplaceText,
             @RequestParam(value = "latitude", defaultValue = "0") double latitude,
             @RequestParam(value = "longitude", defaultValue = "0") double longitude,
-            @RequestParam(value = "pictures", required = false) MultipartFile[] pictures) {
+            @RequestParam(value = "pictures", required = false) List<MultipartFile> pictures) {
 
         HotplaceDto hotplaceDto = new HotplaceDto();
         hotplaceDto.setUserNo(userNo);
@@ -107,29 +107,38 @@ public class HotplaceController {
         hotplaceDto.setLatitude(latitude);
         hotplaceDto.setLongitude(longitude);
 
+        log.info("글쓰기 드가자 : " + hotplaceDto.toString());
         int result = hotplacesService.insertHotplace(hotplaceDto);
         if (result != 1) {
             return ResponseEntity.badRequest().body("fail to insert text");
         }
 
-        if (pictures != null) {
-            String[] pictureUrls = fileUpDownUtil.uploadHotplacePicture(pictures);
-            if (pictureUrls == null) {
-                return ResponseEntity.internalServerError().body("fail to upload pictures in system");
-            }
 
-            List<HotplacePictureDto> pictureDtos = new ArrayList<>();
-            for (String url : pictureUrls) {
-                HotplacePictureDto hotplpic = new HotplacePictureDto();
-                hotplpic.setHotplaceNo(hotplaceDto.getHotplaceNo());
-                hotplpic.setPictureUrl(url);
-                pictureDtos.add(hotplpic);
-            }
-            int uploadResult = hotplacesService.uploadPicture(pictureDtos);
-            if (uploadResult != pictureUrls.length) {
-                return ResponseEntity.internalServerError().body("fail to upload pictures in DB");
-            }
+        boolean aaa = true;
+        if (pictures != null) {
+            aaa = false;
+            log.info("사진 드가자 : " + pictures.toString());
+        //     String[] pictureUrls = fileUpDownUtil.uploadHotplacePicture(pictures);
+        //     if (pictureUrls == null) {
+        //         return ResponseEntity.internalServerError().body("fail to upload pictures in system");
+        //     }
+
+        //     List<HotplacePictureDto> pictureDtos = new ArrayList<>();
+        //     for (String url : pictureUrls) {
+        //         HotplacePictureDto hotplpic = new HotplacePictureDto();
+        //         hotplpic.setHotplaceNo(hotplaceDto.getHotplaceNo());
+        //         hotplpic.setPictureUrl(url);
+        //         pictureDtos.add(hotplpic);
+        //     }
+        //     int uploadResult = hotplacesService.uploadPicture(pictureDtos);
+        //     if (uploadResult != pictureUrls.length) {
+        //         return ResponseEntity.internalServerError().body("fail to upload pictures in DB");
+        //     }
         }
+        if(aaa){
+            log.info("응 사진 꺼져");
+        }
+
         return ResponseEntity.ok("all process success");
     }
 
