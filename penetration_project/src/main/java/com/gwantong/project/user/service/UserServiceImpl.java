@@ -50,9 +50,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateUser(UserDto user) {
         int result = 0;
-
         result = userMapper.updateUser(user);
+        return result;
+    }
 
+    @Override
+    public int updateUserProfile(UserDto user) {
+        int result = 0;
+        result = userMapper.updateUser(user);
         return result;
     }
 

@@ -48,7 +48,6 @@
         INSERT INTO users_tb (`user_id`, `user_password`
         <trim>
             <if test="userName != null and userName != ''">, `user_name`</if>
-            <if test="userProfile != null and userProfile != ''">,`user_profile`</if>
             <if test="ageNo != 0">,`age_no`</if>
             <if test="userRegion != 0">,`user_region`</if>
             <if test="userSex != 0">,`user_sex`</if>
@@ -56,7 +55,6 @@
     ) VALUES (#{userId}, #{userPassword}
         <trim>
             <if test="userName != null and userName != ''">,#{userName}</if>
-            <if test="userProfile != null and userProfile != ''">,#{userProfile}</if>
             <if test="ageNo != 0">,#{ageNo}</if>
             <if test="userRegion != 0">,#{userRegion}</if>
             <if test="userSex != 0">,#{userSex}</if>
@@ -73,9 +71,6 @@
         <if test = "userName != null and userName != ''">
         user_name = #{userName},
         </if>
-        <if test = "userProfile != null and userProfile != ''">
-        user_profile = #{userProfile},
-        </if>
         <if test = "ageNo != 0">
         age_no = #{ageNo},
         </if>
@@ -88,6 +83,12 @@
         user_id = user_id
         
         where user_id = #{userId};
+    </update>
+
+    <update id="updateUserProfile" parameterType="userDto">
+        update users_tb
+        set user_profile = #{userProfile}
+        where user_id = #{userId}
     </update>
 
 </mapper>

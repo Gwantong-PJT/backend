@@ -33,7 +33,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 로그인 없을 때 사용자 받는 인터셉터.
-        registry.addInterceptor(userIdInterceptor).addPathPatterns("/**").order(1);
+        // registry.addInterceptor(userIdInterceptor).addPathPatterns("/**").order(1);
 
         // 로그인 인터셉터. 필요 시 아래 전부 주석 해제
         registry.addInterceptor(jwtInterceptor)
@@ -41,12 +41,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/hotplace/**")
                 .addPathPatterns("/attraction/**")
                 .addPathPatterns("/notice/**")
-                .addPathPatterns("/list/**")
                 .addPathPatterns("/uploads/**")
                 .excludePathPatterns("/user/password")
                 .excludePathPatterns("/user/login")
                 .excludePathPatterns("/user/signup")
-                .order(2);
+                .order(1);
 
     }
 

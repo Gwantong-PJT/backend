@@ -15,5 +15,7 @@ public interface UserService {
 
     int updateUser(UserDto user);
 
+    int updateUserProfile(UserDto user);
+
     String findUserPassword(UserDto user);
 }

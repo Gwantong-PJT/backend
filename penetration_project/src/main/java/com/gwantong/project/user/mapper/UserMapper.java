@@ -15,8 +15,10 @@ public interface UserMapper {
     UserDto getUserInfoByUserId(String userId);
 
     int signUpUser(UserDto user) throws Exception;
-    
+
     int updateUser(UserDto user);
+
+    int updateUserProfile(UserDto user);
 
     String findUserPassword(UserDto user);
 

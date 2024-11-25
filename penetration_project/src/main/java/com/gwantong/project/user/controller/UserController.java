@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -86,9 +87,8 @@ public class UserController {
         }
     }
 
-    @Hidden
     @Operation(summary = "회원 가입", description = "정보를 입력하여 회원 가입을 진행<br>userId와 userPassword는 필수<br>나머지는 선택, 필요 없다면 지울것<br>userNo, userRole은 자동으로 입력됨")
-    @PostMapping("/signup/file")
+    @PostMapping("/signup")
     public ResponseEntity<?> signUpUser(@RequestBody UserDto requestUser) {
 
         int result = userService.signUpUser(requestUser);
@@ -100,12 +100,13 @@ public class UserController {
         }
     }
 
+    @Hidden
     @Operation(summary = "회원 가입 + 프로필 사진", description = "정보를 입력하여 회원 가입을 진행<br>userId와 userPassword는 필수<br>나머지는 선택, 필요 없다면 body에 담지 않아도 상관 없음<br>userNo, userRole은 자동으로 입력됨")
-    @PostMapping("/signup")
+    @PostMapping("/signup/file")
     public ResponseEntity<?> signUpUserwithProfile(
             @RequestBody UserDto requestUser) {
 
-        log.info("지금 새악느는가");
+        // log.info("지금 새악느는가");
         // UserDto requestUser = new UserDto();
         // requestUser.setUserId(userId);
         // requestUser.setUserPassword(userPassword);
@@ -114,12 +115,12 @@ public class UserController {
         // requestUser.setUserRegion(userRegion);
         // requestUser.setUserSex(userSex);
 
-        // 프로필 사진 세팅
+        // // 프로필 사진 세팅
         // if (userProfile != null) {
         // String profileUrl = fileUpDownUtil.uploadUserProfilePicture(userProfile);
         // if (profileUrl == null) {
-        // return ResponseEntity.internalServerError().body("fail to upload pictures in
-        // system");
+        // return ResponseEntity.internalServerError().body("fail to upload pictures
+        // insystem");
         // }
         // requestUser.setUserProfile(profileUrl);
         // }
@@ -137,33 +138,42 @@ public class UserController {
 
     @Operation(summary = "회원 정보 수정", description = "userId를 기반으로 회원의 정보를 수정<br>userId는 필수<br>나머지는 선택 (ageValue는 다른 테이블이라 적용 안됨)<br>로그인 후 진행")
     @PutMapping("/update")
-    public ResponseEntity<?> updateUser(
-            @RequestParam("userId") String userId,
-            @RequestParam(value = "userPassword", required = false) String userPassword,
-            @RequestParam(value = "userName", required = false) String userName,
-            @RequestParam(value = "userProfile", required = false) MultipartFile userProfile,
-            @RequestParam(value = "ageNo", defaultValue = "0") int ageNo,
-            @RequestParam(value = "userRegion", defaultValue = "0") int userRegion,
-            @RequestParam(value = "userSex", defaultValue = "0") int userSex) {
-        UserDto requestUser = new UserDto();
-        requestUser.setUserId(userId);
-        requestUser.setUserPassword(userPassword);
-        requestUser.setUserName(userName);
-        requestUser.setAgeNo(ageNo);
-        requestUser.setUserRegion(userRegion);
-        requestUser.setUserSex(userSex);
-
-        // 프로필 사진 세팅
-        if (userProfile != null) {
-            String profileUrl = fileUpDownUtil.uploadUserProfilePicture(userProfile);
-            if (profileUrl == null) {
-                return ResponseEntity.internalServerError().body("fail to upload pictures in system");
-            }
-            requestUser.setUserProfile(profileUrl);
-        }
-
+    public ResponseEntity<?> updateUser(@RequestBody UserDto requestUser) {
         log.info(requestUser.toString());
         int result = userService.updateUser(requestUser);
+        if (result != 0) {
+            return ResponseEntity.ok(result);
+        } else {
+            // 204 No content
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @Operation(summary = "회원 프로필 사진 변경", description = " 헤더에 있는 userId를 기반으로 회원의 프로필 사진을 변경<br>axios 헤더 세팅 확실하게 하기!,  form-data / multipartfile 설정 하기!")
+    @PutMapping("/update/profile")
+    public ResponseEntity<?> updateUserProfile(@RequestParam("userProfile") MultipartFile userProfile,
+            HttpServletRequest request) {
+        String userId = (String) request.getAttribute("userId");
+        if (userId == null) {
+            return ResponseEntity.badRequest().body("userId is null");
+        }
+
+        if (userProfile == null) {
+            return ResponseEntity.badRequest().body("picture is null");
+        }
+
+        // 로컬에 저장하고 해당 위치 전달받기
+        String profileUrl = fileUpDownUtil.uploadUserProfilePicture(userProfile);
+
+        if (profileUrl == null) {
+            return ResponseEntity.internalServerError().body("fail to save picture in server");
+        }
+        UserDto requestUser = new UserDto();
+        requestUser.setUserId(userId);
+        requestUser.setUserProfile(profileUrl);
+
+        // DB 통신
+        int result = userService.updateUserProfile(requestUser);
         if (result != 0) {
             return ResponseEntity.ok(result);
         } else {
