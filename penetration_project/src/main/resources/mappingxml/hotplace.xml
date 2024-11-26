@@ -18,6 +18,7 @@
         <result column="latitude" property="latitude"/>
         <result column="longitude" property="longitude"/>
         <result column="hotplace_views" property="hotplaceViews"/>
+        <result column="user_profile" property="userProfile"/>
     </resultMap>
 
     <resultMap type="hotplacePictureDto" id="hotplacePictureDtoMap">
@@ -42,7 +43,7 @@
 
     <!-- 모든 글 보기 -->
     <select id="viewAllHotplaces" resultMap="extendHotplaceDtoMap">
-        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name 
+        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name, user_profile
         from hotplaces_tb 
         left join users_tb 
         using(user_no)
@@ -51,7 +52,7 @@
     
     <!-- 게시글 상세 확인 -->
     <select id="selectHotplace" parameterType="int" resultMap="extendHotplaceDtoMap">
-        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name
+        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name, user_profile
         from hotplaces_tb
         left join users_tb 
         using(user_no)
@@ -70,7 +71,7 @@
 
     <!-- 사용자가 작성한 게시글 확인 -->
     <select id ="usersHotplaces" parameterType="int" resultMap = "hotplaceDtoMap">
-        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name
+        select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name, user_profile
         from hotplaces_tb
         left join users_tb 
         using(user_no)

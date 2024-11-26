@@ -25,6 +25,9 @@ public class HotplaceDto {
 
     @Schema(description = "게시글 작성 시각")
     private String hotplaceDate;
+    
+    @Schema(description = "작성자 프사")
+    private String userProfile;
 
     @Schema(description = "조회수")
     private int hotplaceViews;
@@ -40,4 +43,6 @@ public class HotplaceDto {
 
     @Schema(description = "사진들")
     private List<HotplacePictureDto> pictures;
+
+    
 }

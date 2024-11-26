@@ -27,28 +27,14 @@ CREATE TABLE if not exists `USERS_TB` (
 );
 
 
-insert into users_tb(`user_id`, `user_password`, `user_name`, `age_no`, `user_region`, `user_sex`)
-values ("admin","1111","어드민1", 1, 1, 1),
-("a","1","빠른관리자",2, 1, 2),
-("ssafy","1234","싸피인",3, 6, 1),
-("aaa","4321","김싸피",2, 7, 2),
-("test1","111","테스터1",3, 7, 1),
-("test2","111","테스터2",2, 2, 2)
+insert into users_tb(`user_id`, `user_password`, `user_name`, `age_no`, `user_region`, `user_sex`, `user_profile`)
+values ("admin","1111","어드민1", 1, 1, 1, "uploads/profiles/f6a4db3b-ea73-4731-9ba6-6eac6868c9a7.png"),
+("a","1","빠른관리자",2, 1, 2, "uploads/profiles/50372c64-585b-4c0a-a222-d0116bf73843.png"),
+("ssafy","1234","싸피인",3, 6, 1, "uploads/profiles/bad3676b-aaa9-418e-9caa-aca5b544267f.png"),
+("aaa","4321","김싸피",2, 7, 2, "uploads/profiles/6ae0dd63-fa5b-465b-a2d6-cf05a78446e2.png"),
+("test1","111","테스터1",3, 7, 1,null),
+("test2","111","테스터2",2, 2, 2, null)
 ;
-
--- Create table "hotplaces_tb"
-CREATE TABLE if not exists `hotplaces_tb` (
-	`hotplace_no` int NOT NULL auto_increment,
-	`user_no` int	NOT NULL,
-	`hotplace_title` varchar(100),
-	`hotplace_text`	varchar(10000),
-	`hotplace_date`	datetime NULL default CURRENT_TIMESTAMP,
-	`hotplace_views` int default 0,
-    `latitude` decimal(20,17),
-    `longitude` decimal(20,17),
-    primary key (hotplace_no),
-    foreign key (user_no) references users_tb(user_no) on delete cascade
-);
 
 -- Create table "user_refresh_token_tb"
 CREATE TABLE if not exists `user_refresh_token_tb` (
@@ -64,6 +50,20 @@ CREATE TABLE `inquiry_tb` (
 	`views`	int	NULL,
 	primary key (attraction_no, user_no),
     foreign key (attraction_no) references attractions(attraction_no) on delete cascade,
+    foreign key (user_no) references users_tb(user_no) on delete cascade
+);
+
+-- Create table "hotplaces_tb"
+CREATE TABLE if not exists `hotplaces_tb` (
+	`hotplace_no` int NOT NULL auto_increment,
+	`user_no` int	NOT NULL,
+	`hotplace_title` varchar(100),
+	`hotplace_text`	varchar(10000),
+	`hotplace_date`	datetime NULL default CURRENT_TIMESTAMP,
+	`hotplace_views` int default 0,
+    `latitude` decimal(20,17),
+    `longitude` decimal(20,17),
+    primary key (hotplace_no),
     foreign key (user_no) references users_tb(user_no) on delete cascade
 );
 

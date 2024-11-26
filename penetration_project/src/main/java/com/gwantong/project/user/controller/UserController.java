@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.gwantong.project.authorization.service.AuthorizationService;
 import com.gwantong.project.user.dto.UserDto;
@@ -116,27 +115,27 @@ public class UserController {
 
     @Operation(summary = "회원 프로필 사진 변경", description = "헤더에 있는 userId를 기반으로 회원의 프로필 사진을 변경<br>axios 헤더 세팅 확실하게 하기!,  form-data / multipartfile 설정 하기!")
     @PutMapping("/update/profile")
-    public ResponseEntity<?> updateUserProfile(@RequestParam("userProfile") MultipartFile userProfile,
+    public ResponseEntity<?> updateUserProfile(@RequestParam("userProfile") String[] userProfile,
             HttpServletRequest request) {
         String userId = (String) request.getAttribute("userId");
         if (userId == null) {
             return ResponseEntity.badRequest().body("userId is null");
         }
 
-        if (userProfile == null) {
-            return ResponseEntity.badRequest().body("picture is null");
+        String profileUrl = null;
+        if (userProfile != null && userProfile[0] != null && !(userProfile[0].equals("null"))) {
+            // 로컬에 저장하고 해당 위치 전달받기
+            profileUrl = fileUpDownUtil.uploadUserProfilePicture(userProfile);
+            if (profileUrl == null) {
+                return ResponseEntity.internalServerError().body("fail to save picture in server");
+            }
         }
-
-        // 로컬에 저장하고 해당 위치 전달받기
-        String profileUrl = fileUpDownUtil.uploadUserProfilePicture(userProfile);
-
-        if (profileUrl == null) {
-            return ResponseEntity.internalServerError().body("fail to save picture in server");
-        }
+        
         UserDto requestUser = new UserDto();
         requestUser.setUserId(userId);
         requestUser.setUserProfile(profileUrl);
-
+        
+        log.info("DB 저장 드가자ㅏㅏㅏㅏㅏㅏㅏㅏ");
         // DB 통신
         int result = userService.updateUserProfile(requestUser);
         if (result != 0) {
