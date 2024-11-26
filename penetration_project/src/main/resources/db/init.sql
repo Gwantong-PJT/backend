@@ -50,17 +50,6 @@ CREATE TABLE if not exists `hotplaces_tb` (
     foreign key (user_no) references users_tb(user_no) on delete cascade
 );
 
-insert into hotplaces_tb(`user_no`, `hotplace_title`,`hotplace_text`)
-values
-(1, '테스트 글입니다', "테스트 글 본문입니다."),
-(1, '1번 유저의 글', "1번 유저의 글 본문입니다."),
-(2, '2번 유저의 글입니다.', "2번 유저의 테스트 글 본문입니다."),
-(2, '관리자 테스트 글입니다.', "관리자 글 본문입니다."),
-(3, '빠른 테스트 글입니다.', "사실 별 차이 없습니다."),
-(3, '크아악', "으아아악"),
-(4, '싸피이인', "댓글이 없는 글의 본문입니다.")
-;
-
 -- Create table "user_refresh_token_tb"
 CREATE TABLE if not exists `user_refresh_token_tb` (
 	`user_id`	varchar(20)	NOT NULL,
@@ -74,8 +63,8 @@ CREATE TABLE `inquiry_tb` (
 	`user_no`	int	NOT NULL,
 	`views`	int	NULL,
 	primary key (attraction_no, user_no),
-    foreign key (attraction_no) references attractions(attraction_no),
-    foreign key (user_no) references users_tb(user_no)
+    foreign key (attraction_no) references attractions(attraction_no) on delete cascade,
+    foreign key (user_no) references users_tb(user_no) on delete cascade
 );
 
 CREATE TABLE `comment_tb` (
@@ -89,19 +78,6 @@ CREATE TABLE `comment_tb` (
     foreign key (user_no) references users_tb(user_no) on delete cascade
 );
 
-insert into comment_tb(`hotplace_no`, `user_no`,`comment_text`)
-values
-(1, 1, "댓글 답니다"),
-(1, 3, "너무 좋네요!"),
-(1, 4, "1번 글에 달린 댓글입니다"),
-(2, 2, "지나가요"),
-(3, 1, "다 봤다"),
-(3, 2, "좋았습니다"),
-(4, 3, "4번 글에 3번 유저가 쓴 댓글입니다."),
-(5, 4, "글 추가 합니다"),
-(6, 4, "갸아아악")
-;
-
 CREATE TABLE `hotplace_picture_tb` (
 	`picture_no`	int	NOT NULL auto_increment,
 	`hotplace_no`	int	NOT NULL,
@@ -109,18 +85,6 @@ CREATE TABLE `hotplace_picture_tb` (
     primary key (picture_no),
     foreign key (hotplace_no) references hotplaces_tb(hotplace_no) on delete cascade
 );
-
-insert into hotplace_picture_tb(`hotplace_no`, `picture_url`)
-values
-(1, "1번 글 1번 사진"),
-(1, "1번 글 2번 사진"),
-(1, "1번 글 3번 사진"),
-(2, "2번 글 1번 사진"),
-(3, "3번 글 사진"),
-(4, "4번 글 1번 사진"),
-(5, "5번 글 사진")
-;
-
 
 Create table `like_tb` (
 	`user_no` int not null,

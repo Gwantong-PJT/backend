@@ -22,7 +22,6 @@ import com.gwantong.project.user.dto.UserDto;
 import com.gwantong.project.user.service.UserService;
 import com.gwantong.project.util.FileUpDownUtil;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -102,42 +101,6 @@ public class UserController {
         }
     }
 
-    @Hidden
-    @Operation(summary = "회원 가입 + 프로필 사진", description = "정보를 입력하여 회원 가입을 진행<br>userId와 userPassword는 필수<br>나머지는 선택, 필요 없다면 body에 담지 않아도 상관 없음<br>userNo, userRole은 자동으로 입력됨")
-    @PostMapping("/signup/file")
-    public ResponseEntity<?> signUpUserwithProfile(
-            @RequestBody UserDto requestUser) {
-
-        // log.info("지금 새악느는가");
-        // UserDto requestUser = new UserDto();
-        // requestUser.setUserId(userId);
-        // requestUser.setUserPassword(userPassword);
-        // requestUser.setUserName(userName);
-        // requestUser.setAgeNo(ageNo);
-        // requestUser.setUserRegion(userRegion);
-        // requestUser.setUserSex(userSex);
-
-        // // 프로필 사진 세팅
-        // if (userProfile != null) {
-        // String profileUrl = fileUpDownUtil.uploadUserProfilePicture(userProfile);
-        // if (profileUrl == null) {
-        // return ResponseEntity.internalServerError().body("fail to upload pictures
-        // insystem");
-        // }
-        // requestUser.setUserProfile(profileUrl);
-        // }
-
-        log.info(requestUser.toString());
-
-        // DB 처리 후 결과 반환
-        int result = userService.signUpUser(requestUser);
-        if (result != 1) {
-            // 204 No content
-            return ResponseEntity.badRequest().body("fail to sign in user");
-        }
-        return ResponseEntity.ok(result);
-    }
-
     @Operation(summary = "회원 정보 수정", description = "userId를 기반으로 회원의 정보를 수정<br>userId는 필수<br>나머지는 선택 (ageValue는 다른 테이블이라 적용 안됨)<br>로그인 후 진행")
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody UserDto requestUser) {
@@ -151,7 +114,7 @@ public class UserController {
         }
     }
 
-    @Operation(summary = "회원 프로필 사진 변경", description = " 헤더에 있는 userId를 기반으로 회원의 프로필 사진을 변경<br>axios 헤더 세팅 확실하게 하기!,  form-data / multipartfile 설정 하기!")
+    @Operation(summary = "회원 프로필 사진 변경", description = "헤더에 있는 userId를 기반으로 회원의 프로필 사진을 변경<br>axios 헤더 세팅 확실하게 하기!,  form-data / multipartfile 설정 하기!")
     @PutMapping("/update/profile")
     public ResponseEntity<?> updateUserProfile(@RequestParam("userProfile") MultipartFile userProfile,
             HttpServletRequest request) {

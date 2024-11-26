@@ -46,6 +46,7 @@
         from hotplaces_tb 
         left join users_tb 
         using(user_no)
+        order by hotplace_no desc
     </select>
     
     <!-- 게시글 상세 확인 -->

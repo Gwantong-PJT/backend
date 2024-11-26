@@ -89,6 +89,7 @@ public class FileUpDownUtil {
         return pictureNames;
     }
 
+    // 프로필 사진 - 멀티파트파일
     public String uploadUserProfilePicture(MultipartFile picture) {
         String uniqueFileURL = null;
         try {
@@ -101,6 +102,52 @@ public class FileUpDownUtil {
             Files.createDirectories(path.getParent());
             // 파일 저장
             picture.transferTo(path);
+
+        } catch (Exception e) {
+            return null;
+        }
+        return uniqueFileURL;
+    }
+
+    // 프로필 사진 - 스트링
+    public String uploadUserProfilePicture(String picture) {
+        String uniqueFileURL = null;
+        String imageDataString = picture.split(",")[1];
+        try {
+            String uniqueFileName = UUID.randomUUID().toString() + ".png";
+            uniqueFileURL = UPLOAD_FOLDER + PROFILE_FOLDER + uniqueFileName;
+            Path path = Paths.get(uniqueFileURL);
+
+            byte[] imageBytes = Base64.getDecoder().decode(imageDataString);
+
+            // 디렉토리 없으면 만들기
+            Files.createDirectories(path.getParent());
+            // 파일 저장
+            FileOutputStream fos = new FileOutputStream(uniqueFileURL);
+            fos.write(imageBytes);
+
+        } catch (Exception e) {
+            return null;
+        }
+        return uniqueFileURL;
+    }
+
+    // 프로필 사진 - 스트링 배열
+    public String uploadUserProfilePicture(String[] picture) {
+        String uniqueFileURL = null;
+        String imageDataString = picture[1];
+        try {
+            String uniqueFileName = UUID.randomUUID().toString() + ".png";
+            uniqueFileURL = UPLOAD_FOLDER + PROFILE_FOLDER + uniqueFileName;
+            Path path = Paths.get(uniqueFileURL);
+
+            byte[] imageBytes = Base64.getDecoder().decode(imageDataString);
+
+            // 디렉토리 없으면 만들기
+            Files.createDirectories(path.getParent());
+            // 파일 저장
+            FileOutputStream fos = new FileOutputStream(uniqueFileURL);
+            fos.write(imageBytes);
 
         } catch (Exception e) {
             return null;

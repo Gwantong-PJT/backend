@@ -43,7 +43,6 @@ public class HotplaceController {
     public ResponseEntity<?> viewAllHotplaces() {
         List<HotplaceDto> list = hotplacesService.viewAllHotplaces();
         if (list != null) {
-            log.info("모든 핫플 보기 디버깅: " + list.get(0).toString());
             return ResponseEntity.ok(list);
         } else {
             return ResponseEntity.noContent().build();
@@ -53,10 +52,8 @@ public class HotplaceController {
     @Operation(summary = "특정 글 보기", description = "파라미터로 글 번호(hotplaceNo)를 넘기면<br>해당 글을 상세 조회<br>해당 글에 올라간 댓글과 사진들도 같이 조회 됨")
     @GetMapping("/{hotplaceNo}")
     public ResponseEntity<?> selectHotplace(@PathVariable("hotplaceNo") int hotplaceNo) {
-        log.info("특정 글 보기 메소드 들어옴");
         HotplaceDto hotpl = hotplacesService.selectHotplace(hotplaceNo);
         if (hotpl != null) {
-            log.info("핫플 세부 보기 디버깅: " + hotpl.toString());
             return ResponseEntity.ok(hotpl);
         } else {
             return ResponseEntity.noContent().build();
@@ -108,16 +105,12 @@ public class HotplaceController {
         hotplaceDto.setLatitude(latitude);
         hotplaceDto.setLongitude(longitude);
 
-        log.info("글쓰기 드가자 : " + hotplaceDto.toString());
         int result = hotplacesService.insertHotplace(hotplaceDto);
         if (result != 1) {
             return ResponseEntity.badRequest().body("fail to insert text");
         }
 
-        boolean aaa = true;
         if (pictures != null) {
-            aaa = false;
-            log.info("사진 드가자 : " + pictures.toString());
             List<String> pictureUrls = fileUpDownUtil.uploadHotplacePicture(pictures);
             if (pictureUrls == null) {
                 return ResponseEntity.internalServerError().body("fail to upload pictures in system");
@@ -134,9 +127,6 @@ public class HotplaceController {
             if (uploadResult != pictureUrls.size()) {
                 return ResponseEntity.internalServerError().body("fail to upload pictures in DB");
             }
-        }
-        if (aaa) {
-            log.info("응 사진 꺼져");
         }
 
         return ResponseEntity.ok("all process success");
