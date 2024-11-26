@@ -41,7 +41,7 @@
 
 
     <!-- 모든 글 보기 -->
-    <select id="viewAllHotplaces" resultMap="hotplaceDtoMap">
+    <select id="viewAllHotplaces" resultMap="extendHotplaceDtoMap">
         select hotplace_no, hotplace_title, hotplace_text, hotplace_date, hotplace_views, user_no, user_name 
         from hotplaces_tb 
         left join users_tb 
