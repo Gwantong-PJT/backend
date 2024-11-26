@@ -1,9 +1,12 @@
 package com.gwantong.project.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,8 +25,8 @@ public class FileUpDownUtil {
     private static String HOTPLACE_FOLDER = "hotplaces/";
     private static String PROFILE_FOLDER = "profiles/";
 
-    public String[] uploadHotplacePicture(List<MultipartFile> pictures) {
-        String[] pictureNames = new String[pictures.size()];
+    public List<String> uploadHotplacePicture(List<MultipartFile> pictures) {
+        List<String> pictureNames = new ArrayList<>();
         int idx = 0;
         try {
             for (MultipartFile picture : pictures) {
@@ -37,9 +40,49 @@ public class FileUpDownUtil {
                 // 파일 저장
                 picture.transferTo(path);
 
-                pictureNames[idx++] = uniqueFileURL;
+                pictureNames.add(uniqueFileURL);
             }
         } catch (Exception e) {
+            return null;
+        }
+
+        return pictureNames;
+    }
+
+    public List<String> uploadHotplacePicture(String[] pictures) {
+        List<String> pictureNames = new ArrayList<>();
+        List<String> imageDataStringList = new ArrayList<>();
+
+        String sub = pictures[1].substring(0, 5);
+        log.info(sub);
+        // 사진 1개
+        if (!(sub.equals("data:"))) {
+            imageDataStringList.add(pictures[1]);
+        } else {
+            for (int i = 0; i < pictures.length; i++) {
+                imageDataStringList.add(pictures[i].split(",")[1]);
+            }
+        }
+
+        try {
+            for (String imageDataString : imageDataStringList) {
+                // 업로드 경로 확인
+                String uniqueFileName = UUID.randomUUID().toString() + ".png";
+                String uniqueFileURL = UPLOAD_FOLDER + HOTPLACE_FOLDER + uniqueFileName;
+                Path path = Paths.get(uniqueFileURL);
+
+                byte[] imageBytes = Base64.getDecoder().decode(imageDataString);
+
+                // 디렉토리 없으면 만들기
+                Files.createDirectories(path.getParent());
+                // 파일 저장
+                FileOutputStream fos = new FileOutputStream(uniqueFileURL);
+                fos.write(imageBytes);
+
+                pictureNames.add(uniqueFileURL);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
 
@@ -58,7 +101,7 @@ public class FileUpDownUtil {
             Files.createDirectories(path.getParent());
             // 파일 저장
             picture.transferTo(path);
-            
+
         } catch (Exception e) {
             return null;
         }
